@@ -12,6 +12,7 @@
             --content-bg: #f8f9fa;
             --card-bg: #ffffff;
             --primary: #3b82f6;
+            --primary-transparent: #3b83f62c;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
@@ -23,6 +24,7 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--content-bg);
             color: var(--text-dark);
+            overflow-x: hidden;
         }
         
         .sidebar {
@@ -30,8 +32,17 @@
             color: white;
             height: 100vh;
             overflow-y: auto;
-            transition: all 0.3s;
+            transition: transform 0.3s ease-in-out;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 280px;
+            z-index: 100;
+            /* Diubah: Sembunyikan sidebar secara default di mobile */
+            transform: translateX(-100%);
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
         }
         
         .sidebar-item {
@@ -43,6 +54,7 @@
             background-color: rgba(255,255,255,0.1);
             border-left: 3px solid var(--primary);
         }
+        
         .sidebar-subitem {
             transition: all 0.2s;
             border-left: 2px solid transparent;
@@ -109,15 +121,113 @@
             overflow-x: auto;
             font-size: 0.9rem;
         }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            background: var(--primary-transparent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            filter: blur(10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* Diubah: Sembunyikan di desktop */
+            display: none;
+        }
+        
+        .hamburger:hover {
+            background: #2563eb;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 99;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Responsive Table */
+        .responsive-table {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Main content adjustments */
+        .main-content {
+            transition: all 0.3s ease;
+            padding-left: 0;
+            padding-top: 20%;
+        }
+        
+        /* Diubah: Aturan untuk desktop */
+        @media (min-width: 1024px) {
+            .sidebar {
+                /* Di desktop, sidebar selalu terlihat */
+                transform: translateX(0);
+                position: fixed;
+            }
+            
+            .main-content {
+                padding-left: 280px;
+            }
+            
+            .hamburger, .overlay {
+                display: none;
+            }
+            .main-content {
+                padding-top: 0;
+            }
+        }
+        
+        /* Diubah: Aturan untuk mobile */
+        @media (max-width: 1023px) {
+            .hamburger {
+                display: flex; /* Tampilkan hamburger di mobile */
+            }
+            
+            .close-sidebar {
+                display: block; /* Tampilkan tombol close di mobile */
+            }
+        }
     </style>
 </head>
-<body class="flex h-screen">
+<body class="flex flex-col lg:flex-row">
+    <!-- Hamburger Menu -->
+    <div class="hamburger lg:hidden">
+        <i class="fas fa-bars text-xl"></i>
+    </div>
+    
+    <!-- Overlay for mobile -->
+    <div class="overlay"></div>
+    
     <!-- Sidebar -->
-    <div class="sidebar w-64 flex-shrink-0">
+    <div class="sidebar">
         <div class="p-6">
-            <h1 class="text-xl font-bold flex items-center">
-                <i class="fas fa-plane mr-2 text-blue-500"></i> Troli Bandara
-            </h1>
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-plane mr-2 text-blue-500"></i> Troli Bandara
+                </h1>
+                <button class="lg:hidden text-gray-400 hover:text-white close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <p class="text-gray-400 text-sm mt-1">Dokumentasi Proyek</p>
         </div>
         
@@ -304,9 +414,9 @@
     </div>
     
     <!-- Main Content -->
-    <div class="flex-1 overflow-y-auto p-8">
+    <div class="main-content w-full">
         <!-- Progress & Absensi -->
-        <section id="progress" class="mb-12">
+        <section id="progress" class="mb-12 p-4 md:p-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold">Progress & Absensi</h2>
                 <div class="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
@@ -408,7 +518,7 @@
         </section>
         
         <!-- Tujuan & Requirements -->
-        <section id="requirements" class="mb-12">
+        <section id="requirements" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Tujuan & Requirements</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -474,7 +584,7 @@
         </section>
         
         <!-- Spesifikasi API -->
-        <section id="api" class="mb-12">
+        <section id="api" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Spesifikasi API</h2>
             
             <!-- Endpoint Autentikasi -->
@@ -1535,7 +1645,7 @@
         </section>
         
         <!-- Struktur Database -->
-        <section id="db" class="mb-12">
+        <section id="db" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Struktur Database</h2>
             
             <div class="card p-6 mb-8">
@@ -1670,7 +1780,7 @@ CREATE TABLE public.users (
         </section>
                 
         <!-- Tahapan Pembuatan API -->
-        <section id="development-stages" class="mb-12">
+        <section id="development-stages" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Tahapan Pembuatan API</h2>
             
             <!-- Tahap 1: Setup Autentikasi -->
@@ -1964,7 +2074,7 @@ CREATE TABLE public.users (
         </section>
         
         <!-- Urutan Implementasi Teknis -->
-        <section id="technical-implementation" class="mb-12">
+        <section id="technical-implementation" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Urutan Implementasi Teknis</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -2018,7 +2128,7 @@ CREATE TABLE public.users (
         </section>
 
         <!-- Timeline Backend -->
-        <section id="timeline" class="mb-12">
+        <section id="timeline" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Timeline Pengembangan Backend (2 Minggu)</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -2118,9 +2228,43 @@ CREATE TABLE public.users (
     </div>
     
     <script>
+        // Toggle sidebar
+        const hamburger = document.querySelector('.hamburger');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
+        const closeBtn = document.querySelector('.close-sidebar');
+        
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            hamburger.style.display = "none";
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            hamburger.style.display = "flex";
+            document.body.style.overflow = '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            hamburger.style.display = "flex";
+            document.body.style.overflow = '';
+        });
+        
         // Sidebar navigation
-        document.querySelectorAll('.sidebar-item').forEach(item => {
+        document.querySelectorAll('.sidebar-item, .sidebar-subitem').forEach(item => {
             item.addEventListener('click', function() {
+                // Close sidebar on mobile
+                if (window.innerWidth < 1024) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
                 // Remove active class from all items
                 document.querySelectorAll('.sidebar-item').forEach(i => {
                     i.classList.remove('active');
