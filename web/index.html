@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi Proyek Troli Bandara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-bg: #1a1a1a;
+            --content-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --primary: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--content-bg);
+            color: var(--text-dark);
+        }
+        
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: white;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-item {
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .status-done {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-in-progress {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-todo {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .api-endpoint {
+            background-color: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar w-64 flex-shrink-0">
+        <div class="p-6">
+            <h1 class="text-xl font-bold flex items-center">
+                <i class="fas fa-plane mr-2"></i> Troli Bandara
+            </h1>
+            <p class="text-gray-400 text-sm mt-1">Dokumentasi Proyek</p>
+        </div>
+        
+        <div class="px-4 py-6 border-t border-gray-800">
+            <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Menu Utama</h2>
+            <ul>
+                <li class="mb-1">
+                    <a href="#progress" class="sidebar-item active block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-tasks mr-3"></i> Progress & Absensi
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#requirements" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-bullseye mr-3"></i> Tujuan & Requirements
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#api" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-code mr-3"></i> Spesifikasi API
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#db" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-database mr-3"></i> Struktur Database
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#timeline" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-calendar-alt mr-3"></i> Timeline Backend
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="px-4 py-6 border-t border-gray-800">
+            <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Fitur Aplikasi</h2>
+            <ul>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> Login
+                </li>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> Melihat lokasi troli
+                </li>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> CRUD Troli
+                </li>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> Memberi status troli
+                </li>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> Monitoring user aktif
+                </li>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i> Detail informasi troli
+                </li>
+            </ul>
+        </div>
+        
+        <div class="px-4 py-6 border-t border-gray-800">
+            <div class="bg-gray-800 rounded-lg p-4">
+                <h3 class="text-sm font-semibold mb-2">Statistik Proyek</h3>
+                <div class="flex justify-between text-xs mb-1">
+                    <span>Selesai</span>
+                    <span>85%</span>
+                </div>
+                <div class="progress-bar w-full bg-gray-700 rounded-full">
+                    <div class="progress-bar h-full bg-green-500 rounded-full" style="width: 85%"></div>
+                </div>
+                <div class="mt-3 text-xs text-gray-400">
+                    <div class="flex justify-between">
+                        <span>Fitur:</span>
+                        <span>6/7</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Modul:</span>
+                        <span>4/5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto p-8">
+        <!-- Progress & Absensi -->
+        <section id="progress" class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Progress & Absensi</h2>
+                <div class="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
+                    Diperbarui: 15 Juni 2025
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">Ringkasan Progress</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Backend Development</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 bg-green-500 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Frontend Development</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 bg-blue-500 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Testing</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 bg-yellow-500 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">Status Fitur</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span>Login System</span>
+                            <span class="status-badge status-done">Selesai</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Lokasi Troli (RFID)</span>
+                            <span class="status-badge status-done">Selesai</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>CRUD Troli</span>
+                            <span class="status-badge status-in-progress">Dalam Pengerjaan</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Status Troli</span>
+                            <span class="status-badge status-todo">Belum Dimulai</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Monitoring User</span>
+                            <span class="status-badge status-in-progress">Dalam Pengerjaan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card p-6 mb-8">
+                <h3 class="text-lg font-semibold mb-4">Detail Progress Harian</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aktivitas</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap">14 Jun 2025</td>
+                                <td class="px-4 py-3">Implementasi RFID Tracking</td>
+                                <td class="px-4 py-3"><span class="status-badge status-done">Selesai</span></td>
+                                <td class="px-4 py-3 text-sm text-gray-500">Integrasi dengan hardware RFID berhasil</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 whitespace-nowrap">13 Jun 2025</td>
+                                <td class="px-4 py-3">Pengembangan CRUD Troli</td>
+                                <td class="px-4 py-3"><span class="status-badge status-in-progress">Dalam Pengerjaan</span></td>
+                                <td class="px-4 py-3 text-sm text-gray-500">Create dan Read sudah selesai, lanjut ke Update dan Delete</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap">12 Jun 2025</td>
+                                <td class="px-4 py-3">Perbaikan Bug Login</td>
+                                <td class="px-4 py-3"><span class="status-badge status-done">Selesai</span></td>
+                                <td class="px-4 py-3 text-sm text-gray-500">Memperbaiki masalah session management</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 whitespace-nowrap">11 Jun 2025</td>
+                                <td class="px-4 py-3">Desain Dashboard Admin</td>
+                                <td class="px-4 py-3"><span class="status-badge status-done">Selesai</span></td>
+                                <td class="px-4 py-3 text-sm text-gray-500">UI/UX untuk monitoring user dan troli</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tujuan & Requirements -->
+        <section id="requirements" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Tujuan & Requirements</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-bullseye mr-2 text-blue-500"></i> Tujuan Aplikasi
+                    </h3>
+                    <p class="mb-4 text-gray-700">
+                        Membangun sistem manajemen troli bandara berbasis RFID untuk meningkatkan efisiensi pelacakan dan manajemen troli di lingkungan bandara.
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li>Mengurangi waktu pencarian troli oleh petugas</li>
+                        <li>Memantau ketersediaan troli di berbagai lokasi bandara</li>
+                        <li>Memberikan data real-time tentang status troli</li>
+                        <li>Meningkatkan pengalaman pengguna dengan troli yang mudah ditemukan</li>
+                        <li>Memudahkan manajemen inventaris troli</li>
+                    </ul>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-clipboard-list mr-2 text-blue-500"></i> Functional Requirements
+                    </h3>
+                    <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                        <li>Sistem login dengan role user dan admin</li>
+                        <li>Pelacakan lokasi troli melalui RFID</li>
+                        <li>Fitur CRUD (Create, Read, Update, Delete) untuk troli</li>
+                        <li>Pemberian status troli (tersedia, rusak, dalam perbaikan)</li>
+                        <li>Monitoring user aktif dan aktivitas mereka</li>
+                        <li>Dashboard informasi troli dengan detail lengkap</li>
+                        <li>Laporan historis pergerakan troli</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="card p-6 mb-8">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-microchip mr-2 text-blue-500"></i> Teknologi yang Digunakan
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <i class="fas fa-server text-3xl text-blue-500 mb-2"></i>
+                        <h4 class="font-medium">Backend</h4>
+                        <p class="text-sm text-gray-600">Node.js, Express</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <i class="fas fa-database text-3xl text-blue-500 mb-2"></i>
+                        <h4 class="font-medium">Database</h4>
+                        <p class="text-sm text-gray-600">PostgreSQL</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <i class="fas fa-rfid text-3xl text-blue-500 mb-2"></i>
+                        <h4 class="font-medium">Hardware</h4>
+                        <p class="text-sm text-gray-600">RFID Reader & Tags</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <i class="fas fa-mobile-alt text-3xl text-blue-500 mb-2"></i>
+                        <h4 class="font-medium">Frontend</h4>
+                        <p class="text-sm text-gray-600">React.js, Tailwind CSS</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Spesifikasi API -->
+        <section id="api" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Spesifikasi API</h2>
+            
+            <div class="card p-6 mb-8">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Autentikasi</h3>
+                
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/auth/register</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Mendaftarkan pengguna baru</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+  "username": "string",
+  "password": "string",
+  "fullName": "string",
+  "email": "string"
+}</pre>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 201)</h4>
+                        <pre class="rounded p-3 text-sm">{
+  "status": true,
+  "message": "Success",
+  "data": {
+    "userId": "uuid",
+    "username": "user1",
+    "fullName": "Andi Umum",
+    "email": "user1@example.com"
+  }
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/auth/login</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Login pengguna</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+  "username": "string",
+  "password": "string"
+}</pre>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+  "status": true,
+  "message": "Success",
+  "data": {
+    "access_token": "&lt;JWT_access_token&gt;",
+    "refresh_token": "&lt;JWT_refresh_token&gt;"
+  }
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-red-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/auth/logout</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Logout pengguna</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+  "status": true,
+  "message": "Logout berhasil"
+}</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Troli</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Endpoint</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 font-mono">GET</td>
+                                <td class="px-4 py-3 font-mono">/trolleys</td>
+                                <td class="px-4 py-3">Mendapatkan daftar semua troli</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 font-mono">POST</td>
+                                <td class="px-4 py-3 font-mono">/trolleys</td>
+                                <td class="px-4 py-3">Membuat troli baru</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono">GET</td>
+                                <td class="px-4 py-3 font-mono">/trolleys/:id</td>
+                                <td class="px-4 py-3">Mendapatkan detail troli</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 font-mono">PUT</td>
+                                <td class="px-4 py-3 font-mono">/trolleys/:id</td>
+                                <td class="px-4 py-3">Memperbarui data troli</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono">DELETE</td>
+                                <td class="px-4 py-3 font-mono">/trolleys/:id</td>
+                                <td class="px-4 py-3">Menghapus troli</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 font-mono">GET</td>
+                                <td class="px-4 py-3 font-mono">/trolleys/location/:rfid</td>
+                                <td class="px-4 py-3">Mendapatkan lokasi troli berdasarkan RFID</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Struktur Database -->
+        <section id="db" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Struktur Database</h2>
+            
+            <div class="card p-6 mb-8">
+                <h3 class="text-lg font-semibold mb-4">Diagram Relasional</h3>
+                <div class="bg-gray-100 p-8 rounded-lg flex justify-center">
+                    <div class="text-center">
+                        <div class="inline-block bg-white p-6 rounded-lg shadow mb-4">
+                            <div class="font-bold mb-2">users</div>
+                            <div class="text-left text-sm">
+                                <div>id UUID PK</div>
+                                <div>username VARCHAR</div>
+                                <div>password TEXT</div>
+                                <div>role_id UUID FK</div>
+                                <div>...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center space-x-8">
+                            <div class="inline-block bg-white p-6 rounded-lg shadow">
+                                <div class="font-bold mb-2">trolleys</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>rfid_code VARCHAR</div>
+                                    <div>status_id UUID FK</div>
+                                    <div>...</div>
+                                </div>
+                            </div>
+                            
+                            <div class="inline-block bg-white p-6 rounded-lg shadow">
+                                <div class="font-bold mb-2">trolley_location_logs</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>trolley_id UUID FK</div>
+                                    <div>location_id UUID FK</div>
+                                    <div>detected_at TIMESTAMP</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex justify-center space-x-8">
+                            <div class="inline-block bg-white p-6 rounded-lg shadow">
+                                <div class="font-bold mb-2">locations</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>name VARCHAR</div>
+                                    <div>description TEXT</div>
+                                </div>
+                            </div>
+                            
+                            <div class="inline-block bg-white p-6 rounded-lg shadow">
+                                <div class="font-bold mb-2">trolley_statuses</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>name VARCHAR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold mb-4">Script Pembuatan Tabel</h3>
+                <pre>
+CREATE TABLE public.locations (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name character varying NOT NULL,
+  description text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT locations_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public.roles (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name character varying NOT NULL UNIQUE,
+  CONSTRAINT roles_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public.trolley_location_logs (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  trolley_id uuid NOT NULL,
+  location_id uuid NOT NULL,
+  detected_at timestamp with time zone NOT NULL DEFAULT now(),
+  detected_by uuid,
+  CONSTRAINT trolley_location_logs_pkey PRIMARY KEY (id),
+  CONSTRAINT trolley_location_logs_trolley_id_fkey FOREIGN KEY (trolley_id) REFERENCES public.trolleys(id),
+  CONSTRAINT trolley_location_logs_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(id),
+  CONSTRAINT trolley_location_logs_detected_by_fkey FOREIGN KEY (detected_by) REFERENCES public.users(id)
+);
+
+CREATE TABLE public.trolley_statuses (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name character varying NOT NULL,
+  description text,
+  CONSTRAINT trolley_statuses_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public.trolleys (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  rfid_code character varying NOT NULL UNIQUE,
+  trolley_code character varying NOT NULL UNIQUE,
+  status_id uuid,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp without time zone,
+  deleted_at timestamp without time zone,
+  CONSTRAINT trolleys_pkey PRIMARY KEY (id),
+  CONSTRAINT trolleys_status_id_fkey FOREIGN KEY (status_id) REFERENCES public.trolley_statuses(id)
+);
+
+CREATE TABLE public.users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  username character varying NOT NULL UNIQUE,
+  password text NOT NULL,
+  fullname character varying,
+  email character varying UNIQUE,
+  role_id uuid,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp without time zone,
+  deleted_at timestamp without time zone,
+  is_logged_in boolean DEFAULT false,
+  last_login timestamp with time zone,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
+  CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.roles(id)
+);</pre>
+            </div>
+        </section>
+        
+        <!-- Timeline Backend -->
+        <section id="timeline" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Timeline Pengembangan Backend (2 Minggu)</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-calendar-week mr-2 text-blue-500"></i> Minggu 1
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="highlight p-4 rounded-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hari 1-2</span>
+                                <span class="status-badge status-done">Selesai</span>
+                            </div>
+                            <ul class="list-disc pl-5 mt-2 text-sm">
+                                <li>Setup project dan environment</li>
+                                <li>Desain database dan pembuatan skema</li>
+                                <li>Implementasi migrasi database</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="highlight p-4 rounded-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hari 3-4</span>
+                                <span class="status-badge status-done">Selesai</span>
+                            </div>
+                            <ul class="list-disc pl-5 mt-2 text-sm">
+                                <li>Implementasi sistem autentikasi (register, login)</li>
+                                <li>Pembuatan middleware JWT</li>
+                                <li>Endpoint refresh token</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hari 5-7</span>
+                                <span class="status-badge status-in-progress">Dalam Pengerjaan</span>
+                            </div>
+                            <ul class="list-disc pl-5 mt-2 text-sm">
+                                <li>CRUD troli (Create, Read)</li>
+                                <li>Integrasi dengan RFID reader</li>
+                                <li>Endpoint pelacakan lokasi troli</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-calendar-week mr-2 text-blue-500"></i> Minggu 2
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hari 8-9</span>
+                                <span class="status-badge status-todo">Belum Dimulai</span>
+                            </div>
+                            <ul class="list-disc pl-5 mt-2 text-sm">
+                                <li>Menyelesaikan CRUD troli (Update, Delete)</li>
+                                <li>Implementasi sistem status troli</li>
+                                <li>Endpoint update status troli</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hari 10-11</span>
+                                <span class="status-badge status-todo">Belum Dimulai</span>
+                            </div>
+                            <ul class="list-disc pl-5 mt-2 text-sm">
+                                <li>Monitoring user aktif</li>
+                                <li>Endpoint aktivitas user</li>
+                                <li>Endpoint detail troli</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hari 12-14</span>
+                                <span class="status-badge status-todo">Belum Dimulai</span>
+                            </div>
+                            <ul class="list-disc pl-5 mt-2 text-sm">
+                                <li>Testing dan debugging</li>
+                                <li>Optimasi performa</li>
+                                <li>Dokumentasi API</li>
+                                <li>Deployment awal</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="mt-12 pt-8 border-t border-gray-200 text-center text-gray-600">
+            <p>© 2025 Dokumentasi Proyek Troli Bandara. Seluruh hak cipta dilindungi.</p>
+            <p class="mt-2 text-sm">Dibangun dengan HTML, CSS, JavaScript dan Tailwind CSS</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.sidebar-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Scroll to section
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Simulate loading progress
+        const progressBars = document.querySelectorAll('.progress-bar');
+        progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => {
+                bar.style.width = width;
+            }, 300);
+        });
+    </script>
+</body>
+</html>

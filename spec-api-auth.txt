@@ -1,0 +1,204 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Airport Trolley Tracking System - Auth API",
+    "version": "1.0.0",
+    "description": "Dokumentasi lengkap endpoint autentikasi untuk sistem pelacakan troli bandara."
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register User",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "password": { "type": "string" },
+                  "fullName": { "type": "string" },
+                  "email": { "type": "string", "format": "email" }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User berhasil dibuat",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": true,
+                  "message": "Success",
+                  "data": {
+                    "userId": "uuid",
+                    "username": "user1",
+                    "fullName": "Andi Umum",
+                    "email": "user1@example.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validasi gagal",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "property username harus diisi dan berupa string",
+                  "error": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login User",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login sukses",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": true,
+                  "message": "Success",
+                  "data": {
+                    "access_token": "<JWT_access_token>",
+                    "refresh_token": "<JWT_refresh_token>"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Login gagal",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Username atau password salah",
+                  "error": 401
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout user",
+        "tags": ["Auth"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Logout berhasil",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": true,
+                  "message": "Logout berhasil"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token tidak valid",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Token tidak valid atau sudah logout",
+                  "error": 401
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "summary": "Refresh token",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh_token": { "type": "string" }
+                },
+                "required": ["refresh_token"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token baru dikembalikan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": true,
+                  "message": "Success",
+                  "data": {
+                    "access_token": "new_access_token",
+                    "refresh_token": "new_refresh_token"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Refresh token tidak valid",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "error",
+                  "message": "Refresh token tidak valid atau sudah kedaluwarsa",
+                  "error": 401
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
