@@ -172,19 +172,19 @@
                 <h3 class="text-sm font-semibold mb-2">Statistik Proyek</h3>
                 <div class="flex justify-between text-xs mb-1">
                     <span>Selesai</span>
-                    <span>85%</span>
+                    <span>55%</span>
                 </div>
                 <div class="progress-bar w-full bg-gray-700 rounded-full">
-                    <div class="progress-bar h-full bg-green-500 rounded-full" style="width: 85%"></div>
+                    <div class="progress-bar h-full bg-green-500 rounded-full" style="width: 55%"></div>
                 </div>
                 <div class="mt-3 text-xs text-gray-400">
                     <div class="flex justify-between">
                         <span>Fitur:</span>
-                        <span>6/7</span>
+                        <span>2/7</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Modul:</span>
-                        <span>4/5</span>
+                        <span>2/5</span>
                     </div>
                 </div>
             </div>
@@ -361,6 +361,7 @@
             </div>
         </section>
         
+
         <!-- Spesifikasi API -->
         <section id="api" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Spesifikasi API</h2>
@@ -378,25 +379,25 @@
                     <div class="mb-4">
                         <h4 class="font-medium mb-2">Request Body</h4>
                         <pre class="rounded p-3 text-sm">{
-  "username": "string",
-  "password": "string",
-  "fullName": "string",
-  "email": "string"
-}</pre>
+        "username": "string",
+        "password": "string",
+        "fullName": "string",
+        "email": "string"
+        }</pre>
                     </div>
                     
                     <div>
                         <h4 class="font-medium mb-2">Response (Success 201)</h4>
                         <pre class="rounded p-3 text-sm">{
-  "status": true,
-  "message": "Success",
-  "data": {
-    "userId": "uuid",
-    "username": "user1",
-    "fullName": "Andi Umum",
-    "email": "user1@example.com"
-  }
-}</pre>
+        "status": true,
+        "message": "Success",
+        "data": {
+            "userId": "uuid",
+            "username": "user1",
+            "fullName": "Andi Umum",
+            "email": "user1@example.com"
+        }
+        }</pre>
                     </div>
                 </div>
                 
@@ -410,25 +411,25 @@
                     <div class="mb-4">
                         <h4 class="font-medium mb-2">Request Body</h4>
                         <pre class="rounded p-3 text-sm">{
-  "username": "string",
-  "password": "string"
-}</pre>
+        "username": "string",
+        "password": "string"
+        }</pre>
                     </div>
                     
                     <div>
                         <h4 class="font-medium mb-2">Response (Success 200)</h4>
                         <pre class="rounded p-3 text-sm">{
-  "status": true,
-  "message": "Success",
-  "data": {
-    "access_token": "&lt;JWT_access_token&gt;",
-    "refresh_token": "&lt;JWT_refresh_token&gt;"
-  }
-}</pre>
+        "status": true,
+        "message": "Success",
+        "data": {
+            "access_token": "&lt;JWT_access_token&gt;",
+            "refresh_token": "&lt;JWT_refresh_token&gt;"
+        }
+        }</pre>
                     </div>
                 </div>
                 
-                <div class="api-endpoint p-5 rounded-lg">
+                <div class="api-endpoint p-5 rounded-lg mb-6">
                     <div class="flex items-center mb-2">
                         <span class="inline-block px-3 py-1 bg-red-500 text-white rounded mr-3">POST</span>
                         <span class="font-mono text-lg">/auth/logout</span>
@@ -439,58 +440,344 @@
                     <div>
                         <h4 class="font-medium mb-2">Response (Success 200)</h4>
                         <pre class="rounded p-3 text-sm">{
-  "status": true,
-  "message": "Logout berhasil"
-}</pre>
+        "status": true,
+        "message": "Logout berhasil"
+        }</pre>
+                    </div>
+                </div>
+                
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-purple-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/auth/refresh</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Refresh token akses</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "refresh_token": "string"
+        }</pre>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Success",
+        "data": {
+            "access_token": "new_access_token",
+            "refresh_token": "new_refresh_token"
+        }
+        }</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card p-6 mb-8">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Troli</h3>
+                
+                <!-- GET /trolleys -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/trolleys</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Mendapatkan semua troli</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Success",
+        "data": [
+            {
+            "id": "uuid",
+            "rfid_code": "RFID001",
+            "trolley_code": "T001",
+            "status_id": "status_uuid",
+            "created_at": "2025-06-15T10:30:00Z",
+            "updated_at": null,
+            "deleted_at": null
+            },
+            // ... troli lainnya
+        ]
+        }</pre>
+                    </div>
+                </div>
+                
+                <!-- POST /trolleys -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/trolleys</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Membuat troli baru</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "rfid_code": "RFID002",
+        "trolley_code": "T002",
+        "status_id": "status_uuid"
+        }</pre>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 201)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Troli berhasil ditambahkan",
+        "data": {
+            "id": "uuid",
+            "rfid_code": "RFID002",
+            "trolley_code": "T002",
+            "status_id": "status_uuid",
+            "created_at": "2025-06-15T11:15:00Z"
+        }
+        }</pre>
+                    </div>
+                </div>
+                
+                <!-- GET /trolleys/{id} -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/trolleys/{id}</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Mendapatkan detail troli berdasarkan ID</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <span class="font-mono">id</span> - ID troli (UUID)
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Success",
+        "data": {
+            "id": "uuid",
+            "rfid_code": "RFID001",
+            "trolley_code": "T001",
+            "status": {
+            "id": "status_uuid",
+            "name": "Tersedia"
+            },
+            "location_logs": [
+            {
+                "location_name": "Terminal 1",
+                "detected_at": "2025-06-15T10:30:00Z"
+            },
+            // ... riwayat lainnya
+            ],
+            "created_at": "2025-06-10T08:45:00Z",
+            "updated_at": null
+        }
+        }</pre>
+                    </div>
+                </div>
+                
+                <!-- PUT /trolleys/{id} -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">PUT</span>
+                        <span class="font-mono text-lg">/trolleys/{id}</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Memperbarui data troli</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <span class="font-mono">id</span> - ID troli (UUID)
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "rfid_code": "RFID001_updated",
+        "trolley_code": "T001_updated",
+        "status_id": "new_status_uuid"
+        }</pre>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Troli berhasil diperbarui",
+        "data": {
+            "id": "uuid",
+            "rfid_code": "RFID001_updated",
+            "trolley_code": "T001_updated",
+            "status_id": "new_status_uuid",
+            "updated_at": "2025-06-15T12:20:00Z"
+        }
+        }</pre>
+                    </div>
+                </div>
+                
+                <!-- DELETE /trolleys/{id} -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-red-500 text-white rounded mr-3">DELETE</span>
+                        <span class="font-mono text-lg">/trolleys/{id}</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Menghapus troli</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <span class="font-mono">id</span> - ID troli (UUID)
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Troli berhasil dihapus",
+        "data": {
+            "id": "uuid",
+            "deleted_at": "2025-06-15T12:30:00Z"
+        }
+        }</pre>
+                    </div>
+                </div>
+                
+                <!-- GET /trolleys/{id}/logs -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/trolleys/{id}/logs</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Melihat riwayat lokasi troli</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <span class="font-mono">id</span> - ID troli (UUID)
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Success",
+        "data": [
+            {
+            "id": "log_uuid",
+            "location_name": "Terminal 1",
+            "detected_at": "2025-06-15T10:30:00Z",
+            "detected_by": "Petugas A"
+            },
+            {
+            "id": "log_uuid",
+            "location_name": "Gate B",
+            "detected_at": "2025-06-15T11:45:00Z",
+            "detected_by": "Petugas B"
+            },
+            // ... riwayat lainnya
+        ]
+        }</pre>
+                    </div>
+                </div>
+                
+                <!-- GET /trolleys/location/{rfid} -->
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/trolleys/location/{rfid}</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Mendapatkan lokasi troli berdasarkan RFID</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <span class="font-mono">rfid</span> - Kode RFID troli
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Success",
+        "data": {
+            "trolley_id": "uuid",
+            "rfid_code": "RFID001",
+            "current_location": "Terminal 1",
+            "last_detected": "2025-06-15T14:20:00Z",
+            "status": "Tersedia"
+        }
+        }</pre>
                     </div>
                 </div>
             </div>
             
             <div class="card p-6">
-                <h3 class="text-lg font-semibold mb-4">Endpoint Troli</h3>
+                <h3 class="text-lg font-semibold mb-4">Endpoint Monitoring</h3>
                 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Endpoint</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deskripsi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-4 py-3 font-mono">GET</td>
-                                <td class="px-4 py-3 font-mono">/trolleys</td>
-                                <td class="px-4 py-3">Mendapatkan daftar semua troli</td>
-                            </tr>
-                            <tr class="bg-gray-50">
-                                <td class="px-4 py-3 font-mono">POST</td>
-                                <td class="px-4 py-3 font-mono">/trolleys</td>
-                                <td class="px-4 py-3">Membuat troli baru</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono">GET</td>
-                                <td class="px-4 py-3 font-mono">/trolleys/:id</td>
-                                <td class="px-4 py-3">Mendapatkan detail troli</td>
-                            </tr>
-                            <tr class="bg-gray-50">
-                                <td class="px-4 py-3 font-mono">PUT</td>
-                                <td class="px-4 py-3 font-mono">/trolleys/:id</td>
-                                <td class="px-4 py-3">Memperbarui data troli</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 font-mono">DELETE</td>
-                                <td class="px-4 py-3 font-mono">/trolleys/:id</td>
-                                <td class="px-4 py-3">Menghapus troli</td>
-                            </tr>
-                            <tr class="bg-gray-50">
-                                <td class="px-4 py-3 font-mono">GET</td>
-                                <td class="px-4 py-3 font-mono">/trolleys/location/:rfid</td>
-                                <td class="px-4 py-3">Mendapatkan lokasi troli berdasarkan RFID</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- GET /users/monitoring -->
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/users/monitoring</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Monitoring user login dan pengakses troli</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+        "status": true,
+        "message": "Success",
+        "data": {
+            "active_users": [
+            {
+                "id": "user_uuid",
+                "username": "admin1",
+                "fullname": "Admin Utama",
+                "last_login": "2025-06-15T13:45:00Z",
+                "last_activity": "Melihat troli RFID001"
+            },
+            {
+                "id": "user_uuid",
+                "username": "user2",
+                "fullname": "Petugas Lapangan",
+                "last_login": "2025-06-15T12:30:00Z",
+                "last_activity": "Update status troli"
+            }
+            ],
+            "trolley_access_stats": {
+            "today": 42,
+            "this_week": 215,
+            "top_users": [
+                {
+                "username": "user2",
+                "access_count": 87
+                },
+                {
+                "username": "admin1",
+                "access_count": 65
+                }
+            ]
+            }
+        }
+        }</pre>
+                    </div>
                 </div>
             </div>
         </section>
