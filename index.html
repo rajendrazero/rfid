@@ -43,6 +43,15 @@
             background-color: rgba(255,255,255,0.1);
             border-left: 3px solid var(--primary);
         }
+        .sidebar-subitem {
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+
+        .sidebar-subitem:hover, .sidebar-subitem.active {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-left: 2px solid #3b82f6;
+        }
         
         .progress-bar {
             height: 8px;
@@ -116,7 +125,7 @@
             <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Menu Utama</h2>
             <ul>
                 <li class="mb-1">
-                    <a href="#progress" class="sidebar-item active block py-3 px-4 rounded flex items-center">
+                    <a href="#progress" class="sidebar-item block py-3 px-4 rounded flex items-center">
                         <i class="fas fa-tasks mr-3"></i> Progress & Absensi
                     </a>
                 </li>
@@ -126,7 +135,7 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#api" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                    <a href="#api" class="sidebar-item active block py-3 px-4 rounded flex items-center">
                         <i class="fas fa-code mr-3"></i> Spesifikasi API
                     </a>
                 </li>
@@ -143,7 +152,44 @@
             </ul>
         </div>
         
-        <div class="px-4 py-6 border-t border-gray-800">
+        <!-- Navigasi Endpoint API -->
+        <div class="px-4 py-3 border-t border-gray-800">
+            <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Navigasi API</h2>
+            <ul>
+                <li class="mb-1">
+                    <a href="#api-auth" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-key mr-2 text-blue-400"></i> Autentikasi
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#api-trolleys" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-shopping-cart mr-2 text-green-400"></i> Troli
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#api-statuses" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-tag mr-2 text-orange-400"></i> Status Troli
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#api-locations" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-map-marker-alt mr-2 text-red-400"></i> Lokasi
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#api-monitoring" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-chart-line mr-2 text-purple-400"></i> Monitoring
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#api-users" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-users mr-2 text-indigo-400"></i> Manajemen Pengguna
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="px-4 py-3 border-t border-gray-800">
             <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Fitur Aplikasi</h2>
             <ul>
                 <li class="mb-2 flex items-center text-sm">
@@ -166,6 +212,7 @@
                 </li>
             </ul>
         </div>
+        
         
         <div class="px-4 py-6 border-t border-gray-800">
             <div class="bg-gray-800 rounded-lg p-4">
@@ -366,7 +413,8 @@
         <section id="api" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Spesifikasi API</h2>
             
-            <div class="card p-6 mb-8">
+            <!-- Endpoint Autentikasi -->
+            <div class="card p-6 mb-8" id="api-auth">
                 <h3 class="text-lg font-semibold mb-4">Endpoint Autentikasi</h3>
                 
                 <div class="api-endpoint p-5 rounded-lg mb-6">
@@ -374,7 +422,7 @@
                         <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">POST</span>
                         <span class="font-mono text-lg">/auth/register</span>
                     </div>
-                    <p class="text-gray-700 mb-3">Mendaftarkan pengguna baru</p>
+                    <p class="text-gray-700 mb-3">Mendaftarkan pengguna baru (hanya ada role user dan admin)</p>
                     
                     <div class="mb-4">
                         <h4 class="font-medium mb-2">Request Body</h4>
@@ -382,7 +430,8 @@
         "username": "string",
         "password": "string",
         "fullName": "string",
-        "email": "string"
+        "email": "string",
+        "role": "string"
         }</pre>
                     </div>
                     
@@ -395,7 +444,8 @@
             "userId": "uuid",
             "username": "user1",
             "fullName": "Andi Umum",
-            "email": "user1@example.com"
+            "email": "user1@example.com",
+            "role": "user"
         }
         }</pre>
                     </div>
@@ -474,16 +524,17 @@
                 </div>
             </div>
             
-            <div class="card p-6 mb-8">
+            <!-- Endpoint Troli -->
+            <div class="card p-6 mb-8" id="api-trolleys">
                 <h3 class="text-lg font-semibold mb-4">Endpoint Troli</h3>
                 
-                <!-- GET /trolleys (with filter, search, pagination) -->
+                <!-- GET /trolleys (with filter, search, pagination, and visualization info) -->
                 <div class="api-endpoint p-5 rounded-lg mb-6">
                     <div class="flex items-center mb-2">
                         <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
                         <span class="font-mono text-lg">/trolleys</span>
                     </div>
-                    <p class="text-gray-700 mb-3">Ambil semua troli (dengan filter, pencarian, dan pagination)</p>
+                    <p class="text-gray-700 mb-3">Ambil semua troli (dengan filter, pencarian, pagination, dan informasi lokasi untuk visualisasi)</p>
                     <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
                     
                     <div class="mb-4">
@@ -499,7 +550,7 @@
                                 <span class="font-mono">search</span> (optional, string) - Pencarian berdasarkan kode troli atau RFID
                             </div>
                             <div class="mb-2">
-                                <span class="font-mono">limit</span> (optional, integer, default: 20, min: 20, max: 1000) - Jumlah data per halaman
+                                <span class="font-mono">limit</span> (optional, integer, default: 20, min: 20) - Jumlah data per halaman
                             </div>
                             <div>
                                 <span class="font-mono">page</span> (optional, integer, default: 1) - Nomor halaman
@@ -507,7 +558,7 @@
                         </div>
                     </div>
                     
-                    <div>
+                    <div class="mb-6">
                         <h4 class="font-medium mb-2">Response (Success 200)</h4>
                         <pre class="rounded p-3 text-sm">{
                 "status": true,
@@ -524,20 +575,24 @@
                         },
                         "location": {
                         "id": "uuid",
-                        "name": "Terminal 1"
+                        "name": "Terminal 1",
+                        "x_coordinate": 120.5,
+                        "y_coordinate": 310.2
                         }
                     },
                     {
                         "id": "uuid",
-                        "rfid_code": "RF789012",
+                        "rfid_code": "RF654321",
                         "trolley_code": "TR-02",
                         "status": {
                         "id": "uuid",
-                        "name": "Dalam Perbaikan"
+                        "name": "Tersedia"
                         },
                         "location": {
                         "id": "uuid",
-                        "name": "Terminal 2"
+                        "name": "Terminal 2",
+                        "x_coordinate": 80.0,
+                        "y_coordinate": 500.4
                         }
                     }
                     ],
@@ -550,12 +605,65 @@
                 }</pre>
                     </div>
                     
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "status": "error",
+                "message": "Parameter 'status_id' harus berupa UUID yang valid",
+                "error": 400
+                }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika parameter query tidak valid
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 404)</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "status": false,
+                "message": "Tidak ada troli yang cocok dengan filter pencarian",
+                "data": [],
+                "error": 404
+                }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika tidak ada troli yang ditemukan berdasarkan filter
+                        </p>
+                    </div>
+                    
                     <div class="mt-4">
                         <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
                         <div class="bg-gray-100 p-4 rounded-lg">
                             <p class="text-sm font-mono mb-1">GET /trolleys?location_id=123e4567-e89b-12d3-a456-426614174000&status_id=223e4567-e89b-12d3-a456-426614174000&search=TR-01&limit=10&page=2</p>
                             <p class="text-xs text-gray-600">Mencari troli dengan lokasi tertentu, status tertentu, kode TR-01, menampilkan 10 item per halaman di halaman ke-2</p>
                         </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-map-marked-alt mr-2"></i> Informasi Visualisasi Lokasi
+                        </h4>
+                        <p class="text-sm text-blue-700">
+                            Koordinat lokasi (<span class="font-mono">x_coordinate</span> dan <span class="font-mono">y_coordinate</span>) 
+                            dapat digunakan untuk visualisasi peta lokasi troli di aplikasi:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
+                            <li>Menampilkan posisi troli pada peta bandara</li>
+                            <li>Visualisasi kepadatan troli di area tertentu</li>
+                            <li>Heatmap distribusi troli</li>
+                            <li>Rute pergerakan troli historis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
+                            <i class="fas fa-exclamation-circle mr-2"></i> Potensi Kesalahan
+                        </h4>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-yellow-700">
+                            <li>Menggunakan format UUID tidak valid untuk <span class="font-mono">location_id</span> atau <span class="font-mono">status_id</span></li>
+                            <li>Menggunakan nilai di luar range 20-1000 untuk <span class="font-mono">limit</span></li>
+                            <li>Menggunakan nilai negatif untuk <span class="font-mono">page</span></li>
+                            <li>Filter yang terlalu spesifik sehingga tidak ada troli yang cocok</li>
+                        </ul>
                     </div>
                 </div>
                 
@@ -779,7 +887,397 @@
                 </div>
             </div>
             
-            <div class="card p-6 mb-8">
+            <!-- Endpoint Trolley Statuses -->
+            <div class="card p-6 mb-8" id="api-statuses">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Status Troli</h3>
+
+                <!-- GET /trolley-statuses -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/trolley-statuses</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Ambil daftar status troli (untuk dropdown, filter, dll)</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": true,
+            "message": "Success",
+            "data": [
+                {
+                "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+                "name": "Tersedia",
+                "description": "Troli siap digunakan"
+                },
+                {
+                "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+                "name": "Digunakan",
+                "description": "Troli sedang digunakan oleh penumpang"
+                },
+                {
+                "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+                "name": "Maintenance",
+                "description": "Troli sedang dalam perbaikan"
+                }
+            ]
+            }</pre>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "Parameter tidak valid",
+            "error": 400
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika request mengandung parameter yang tidak valid
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <p class="text-sm font-mono mb-1">GET /trolley-statuses</p>
+                            <p class="text-xs text-gray-600">Mengambil semua status troli yang tersedia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-200">
+                        <h4 class="font-medium text-orange-800 mb-2 flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i> Penggunaan Status Troli
+                        </h4>
+                        <p class="text-sm text-orange-700">
+                            Status troli digunakan untuk melacak kondisi setiap troli dalam sistem:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-orange-700">
+                            <li>Menentukan troli yang siap digunakan penumpang</li>
+                            <li>Mengidentifikasi troli yang perlu perbaikan</li>
+                            <li>Memfilter troli berdasarkan status di dashboard</li>
+                            <li>Melacak siklus hidup troli</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- POST /trolley-statuses -->
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/trolley-statuses</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Buat status troli baru</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "name": "Sedang dibersihkan",
+            "description": "Troli dalam proses pembersihan setelah digunakan."
+            }</pre>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Success 201)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": true,
+            "message": "Status berhasil dibuat",
+            "data": {
+                "id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+                "name": "Sedang dibersihkan",
+                "description": "Troli dalam proses pembersihan setelah digunakan."
+            }
+            }</pre>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "Property 'name' harus diisi dan berupa string",
+            "error": 400
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika data yang dikirim tidak valid
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <p class="text-sm font-mono mb-1">POST /trolley-statuses</p>
+                            <p class="text-xs text-gray-600">Membuat status troli baru untuk proses pembersihan</p>
+                            
+                            <div class="mt-3 p-3 bg-gray-200 rounded text-sm">
+                                <p class="font-medium">Contoh Request:</p>
+                                <pre class="mt-2">{
+            "name": "Dalam Perawatan",
+            "description": "Troli sedang menjalani perawatan rutin"
+            }</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Kesalahan Umum
+                        </h4>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
+                            <li><span class="font-mono">name</span> tidak boleh kosong</li>
+                            <li><span class="font-mono">name</span> harus unik (tidak boleh duplikat)</li>
+                            <li><span class="font-mono">name</span> maksimal 50 karakter</li>
+                            <li><span class="font-mono">description</span> maksimal 255 karakter</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                            <i class="fas fa-lightbulb mr-2"></i> Tips Manajemen Status
+                        </h4>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-green-700">
+                            <li>Buat status yang mencerminkan alur kerja troli di bandara Anda</li>
+                            <li>Gunakan nama yang singkat namun deskriptif</li>
+                            <li>Tambahkan deskripsi untuk penjelasan lebih detail</li>
+                            <li>Hindari membuat status yang terlalu mirip</li>
+                            <li>Perbarui status sesuai kebutuhan operasional</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Endpoint Locations -->
+            <div class="card p-6 mb-8" id="api-locations">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Lokasi</h3>
+
+                <!-- GET /locations -->
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/locations</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Ambil daftar lokasi (untuk dropdown, filter, dll)</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <div>
+                                <span class="font-mono">search</span> (optional, string) - Cari berdasarkan nama lokasi
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": true,
+            "message": "Success",
+            "data": [
+                {
+                "id": "3f7a45e2-1c5d-4b8a-9e6f-1a2b3c4d5e6f",
+                "name": "Terminal 1",
+                "description": "Terminal Kedatangan",
+                "x_coordinate": 120.5,
+                "y_coordinate": 310.2
+                },
+                {
+                "id": "8d9e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
+                "name": "Terminal 2",
+                "description": "Terminal Keberangkatan",
+                "x_coordinate": 80.0,
+                "y_coordinate": 500.4
+                }
+            ]
+            }</pre>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "Parameter 'search' harus berupa string",
+            "error": 400
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika parameter yang diberikan tidak valid
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <p class="text-sm font-mono mb-1">GET /locations?search=terminal</p>
+                            <p class="text-xs text-gray-600">Mencari lokasi dengan nama yang mengandung kata "terminal"</p>
+                            
+                            <div class="mt-3 p-3 bg-gray-200 rounded text-sm">
+                                <p class="font-medium">Contoh Response:</p>
+                                <pre class="mt-2">{
+            "status": true,
+            "message": "Success",
+            "data": [
+                {
+                "id": "3f7a45e2-1c5d-4b8a-9e6f-1a2b3c4d5e6f",
+                "name": "Terminal 1",
+                "description": "Terminal Kedatangan",
+                "x_coordinate": 120.5,
+                "y_coordinate": 310.2
+                },
+                {
+                "id": "8d9e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
+                "name": "Terminal 2",
+                "description": "Terminal Keberangkatan",
+                "x_coordinate": 80.0,
+                "y_coordinate": 500.4
+                }
+            ]
+            }</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POST /trolleys/{id}/location-logs -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
+                        <span class="font-mono text-lg">/trolleys/{id}/location-logs</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Catat lokasi terbaru dari troli tertentu</p>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Endpoint ini digunakan untuk mencatat log lokasi baru dari sebuah troli. 
+                        Digunakan dalam sistem pelacakan dan visualisasi pergerakan troli.
+                    </p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Parameters</h4>
+                        <div class="bg-gray-100 p-3 rounded text-sm">
+                            <div class="mb-2">
+                                <span class="font-mono">id</span> (required, UUID) - UUID dari troli yang akan dicatat lokasinya
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "location_id": "a6c31c6e-bcc9-4b89-9320-7398b5dabc21",
+                "detected_by": "7f01fbd7-3dc4-4bfe-91e6-e9836f81c6e9",
+                "x_offset": 3.2,
+                "y_offset": 5.1
+                }</pre>
+                        <div class="mt-2 text-sm text-gray-600">
+                            <p><span class="font-semibold">location_id</span> (required, UUID) - UUID lokasi tempat troli terdeteksi</p>
+                            <p><span class="font-semibold">detected_by</span> (optional, UUID) - UUID user/sensor yang mendeteksi</p>
+                            <p><span class="font-semibold">x_offset</span> (optional, number) - Offset X dari pusat lokasi</p>
+                            <p><span class="font-semibold">y_offset</span> (optional, number) - Offset Y dari pusat lokasi</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Success 201)</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "status": true,
+                "message": "Log lokasi berhasil dicatat",
+                "data": {
+                    "id": "uuid-log",
+                    "trolley_id": "uuid-trolley",
+                    "location_id": "uuid-location",
+                    "detected_at": "2025-06-15T14:55:00.000Z",
+                    "detected_by": "uuid-user",
+                    "x_offset": 3.2,
+                    "y_offset": 5.1
+                }
+                }</pre>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "status": "error",
+                "message": "location_id harus diisi",
+                "error": 400
+                }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika data yang dikirim tidak valid
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 404)</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "status": "error",
+                "message": "Troli dengan ID tersebut tidak ditemukan",
+                "error": 404
+                }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika troli dengan ID yang diberikan tidak ditemukan
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 500)</h4>
+                        <pre class="rounded p-3 text-sm">{
+                "status": "error",
+                "message": "Gagal mencatat log lokasi",
+                "error": 500
+                }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika ada masalah server internal
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <p class="text-sm font-mono mb-1">POST /trolleys/123e4567-e89b-12d3-a456-426614174000/location-logs</p>
+                            <p class="text-xs text-gray-600">Mencatat lokasi baru untuk troli dengan ID tertentu</p>
+                            
+                            <div class="mt-3 p-3 bg-gray-200 rounded text-sm">
+                                <p class="font-medium">Contoh Request:</p>
+                                <pre class="mt-2">{
+                "location_id": "a6c31c6e-bcc9-4b89-9320-7398b5dabc21",
+                "detected_by": "7f01fbd7-3dc4-4bfe-91e6-e9836f81c6e9",
+                "x_offset": 3.2,
+                "y_offset": 5.1
+                }</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i> Penggunaan Sistem Pelacakan
+                        </h4>
+                        <p class="text-sm text-blue-700">
+                            Endpoint ini merupakan bagian penting dari sistem pelacakan troli berbasis RFID:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
+                            <li>Setiap kali troli terdeteksi oleh RFID reader, endpoint ini dipanggil</li>
+                            <li>Koordinat offset membantu menentukan posisi tepat troli dalam area</li>
+                            <li>Data yang dikumpulkan digunakan untuk visualisasi peta real-time</li>
+                            <li>Historis pergerakan troli dapat dianalisis untuk efisiensi operasional</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                        <h4 class="font-medium text-purple-800 mb-2 flex items-center">
+                            <i class="fas fa-lightbulb mr-2"></i> Best Practices
+                        </h4>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-purple-700">
+                            <li>Gunakan sensor RFID di titik-titik strategis di seluruh bandara</li>
+                            <li>Pastikan setiap pembacaan RFID memicu panggilan ke endpoint ini</li>
+                            <li>Gunakan nilai offset untuk akurasi posisi yang lebih baik</li>
+                            <li>Catat informasi "detected_by" untuk pelacakan sumber deteksi</li>
+                            <li>Monitor error 500 untuk mendeteksi masalah server</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Endpoint Monitoring -->
+            <div class="card p-6 mb-8" id="api-monitoring">
                 <h3 class="text-lg font-semibold mb-4">Endpoint Monitoring</h3>
                 
                 <!-- GET /users/monitoring -->
@@ -833,97 +1331,139 @@
                 </div>
             </div>
 
-            <!-- GET /locations -->
-            <div class="card p-6">
-                <h3 class="text-lg font-semibold mb-4">Endpoint locations</h3>
+            <!-- Endpoint Users -->
+            <div class="card p-6 mb-8" id="api-users">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Manajemen Pengguna</h3>
 
-                <div class="api-endpoint p-5 rounded-lg mb-6">
+                <!-- PATCH /users/{id}/role -->
+                <div class="api-endpoint p-5 rounded-lg">
                     <div class="flex items-center mb-2">
-                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
-                        <span class="font-mono text-lg">/locations</span>
+                        <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">PATCH</span>
+                        <span class="font-mono text-lg">/users/{id}/role</span>
                     </div>
-                    <p class="text-gray-700 mb-3">Ambil daftar lokasi (untuk dropdown, filter, dll)</p>
-                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    <p class="text-gray-700 mb-3">Ubah role user</p>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Endpoint khusus admin untuk mengubah peran user menjadi admin atau lainnya.
+                    </p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
                     
                     <div class="mb-4">
                         <h4 class="font-medium mb-2">Parameters</h4>
                         <div class="bg-gray-100 p-3 rounded text-sm">
                             <div>
-                                <span class="font-mono">search</span> (optional, string) - Cari berdasarkan nama lokasi
+                                <span class="font-mono">id</span> (required, UUID) - UUID user yang akan diubah rolenya
                             </div>
                         </div>
                     </div>
                     
-                    <div>
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "role_id": "f1aabf12-9211-4e2b-a7b9-8126cf2a7df0"
+            }</pre>
+                        <div class="mt-2 text-sm text-gray-600">
+                            <p><span class="font-semibold">role_id</span> (required, UUID) - UUID role baru (contoh: role admin)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
                         <h4 class="font-medium mb-2">Response (Success 200)</h4>
                         <pre class="rounded p-3 text-sm">{
-                "status": true,
-                "message": "Success",
-                "data": [
-                    {
-                    "id": "3f7a45e2-1c5d-4b8a-9e6f-1a2b3c4d5e6f",
-                    "name": "Terminal 1",
-                    "description": "Terminal Kedatangan Domestik"
-                    },
-                    {
-                    "id": "8d9e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
-                    "name": "Terminal 2",
-                    "description": "Terminal Keberangkatan Internasional"
-                    },
-                    {
-                    "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-                    "name": "Gate A",
-                    "description": "Area keberangkatan penerbangan domestik"
-                    },
-                    {
-                    "id": "f0e1d2c3-b4a5-6f7e-8d9c-0b1a2f3e4d5c",
-                    "name": "Baggage Claim",
-                    "description": "Area pengambilan bagasi"
-                    }
-                ]
-                }</pre>
+            "status": true,
+            "message": "Role user berhasil diperbarui",
+            "data": {
+                "id": "uuid",
+                "username": "rajendra",
+                "role_id": "uuid",
+                "new_role": "Admin"
+            }
+            }</pre>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "role_id harus berupa UUID yang valid",
+            "error": 400
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika role_id tidak valid atau tidak sesuai format UUID
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 401)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "Hanya admin yang dapat mengubah role user",
+            "error": 401
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika user yang mencoba mengakses bukan admin
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 404)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "User dengan ID tersebut tidak ditemukan",
+            "error": 404
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika user dengan ID yang diberikan tidak ditemukan
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 500)</h4>
+                        <pre class="rounded p-3 text-sm">{
+            "status": "error",
+            "message": "Gagal memperbarui role user",
+            "error": 500
+            }</pre>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika ada masalah server internal
+                        </p>
                     </div>
                     
                     <div class="mt-4">
                         <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
                         <div class="bg-gray-100 p-4 rounded-lg">
-                            <p class="text-sm font-mono mb-1">GET /locations?search=terminal</p>
-                            <p class="text-xs text-gray-600">Mencari lokasi dengan nama yang mengandung kata "terminal"</p>
+                            <p class="text-sm font-mono mb-1">PATCH /users/123e4567-e89b-12d3-a456-426614174000/role</p>
+                            <p class="text-xs text-gray-600">Mengubah role user dengan ID tertentu</p>
                             
                             <div class="mt-3 p-3 bg-gray-200 rounded text-sm">
-                                <p class="font-medium">Contoh Response:</p>
+                                <p class="font-medium">Contoh Request:</p>
                                 <pre class="mt-2">{
-                "status": true,
-                "message": "Success",
-                "data": [
-                    {
-                    "id": "3f7a45e2-1c5d-4b8a-9e6f-1a2b3c4d5e6f",
-                    "name": "Terminal 1",
-                    "description": "Terminal Kedatangan Domestik"
-                    },
-                    {
-                    "id": "8d9e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
-                    "name": "Terminal 2",
-                    "description": "Terminal Keberangkatan Internasional"
-                    }
-                ]
-                }</pre>
+            "role_id": "f1aabf12-9211-4e2b-a7b9-8126cf2a7df0"
+            }</pre>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
-                            <i class="fas fa-info-circle mr-2"></i> Penggunaan Khas
+                    <div class="mt-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                        <h4 class="font-medium text-purple-800 mb-2 flex items-center">
+                            <i class="fas fa-user-shield mr-2"></i> Keamanan dan Izin
                         </h4>
-                        <p class="text-sm text-blue-700">
-                            Endpoint ini biasanya digunakan untuk mengisi dropdown pemilihan lokasi di berbagai fitur aplikasi:
-                        </p>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-purple-700">
+                            <li>Hanya user dengan role admin yang dapat mengakses endpoint ini</li>
+                            <li>Setiap permintaan harus menyertakan token akses yang valid</li>
+                            <li>Log aktivitas perubahan role harus dicatat untuk audit</li>
+                            <li>Verifikasi ganda disarankan untuk perubahan role penting</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Penting
+                        </h4>
                         <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
-                            <li>Filter troli berdasarkan lokasi</li>
-                            <li>Pemilihan lokasi saat menambahkan log troli</li>
-                            <li>Pemilihan lokasi dalam laporan</li>
-                            <li>Dropdown pada form admin</li>
+                            <li>Pastikan role_id yang dikirim valid dan sudah terdaftar di sistem</li>
+                            <li>User tidak dapat mengubah role sendiri menjadi non-admin</li>
+                            <li>Perubahan role dapat mempengaruhi akses pengguna secara signifikan</li>
+                            <li>Lakukan verifikasi tambahan untuk perubahan role ke admin</li>
                         </ul>
                     </div>
                 </div>
@@ -997,11 +1537,13 @@
                 <h3 class="text-lg font-semibold mb-4">Script Pembuatan Tabel</h3>
                 <pre>
 CREATE TABLE public.locations (
-  id uuid NOT NULL DEFAULT gen_random_uuid(),
-  name character varying NOT NULL,
-  description text,
-  created_at timestamp with time zone DEFAULT now(),
-  CONSTRAINT locations_pkey PRIMARY KEY (id)
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+    name character varying NOT NULL,
+    description text,
+    created_at timestamp with time zone DEFAULT now(),
+    x_coordinate numeric,
+    y_coordinate numeric,
+    CONSTRAINT locations_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE public.roles (
@@ -1016,10 +1558,12 @@ CREATE TABLE public.trolley_location_logs (
   location_id uuid NOT NULL,
   detected_at timestamp with time zone NOT NULL DEFAULT now(),
   detected_by uuid,
+  x_offset numeric,
+  y_offset numeric,
   CONSTRAINT trolley_location_logs_pkey PRIMARY KEY (id),
-  CONSTRAINT trolley_location_logs_trolley_id_fkey FOREIGN KEY (trolley_id) REFERENCES public.trolleys(id),
+  CONSTRAINT trolley_location_logs_detected_by_fkey FOREIGN KEY (detected_by) REFERENCES public.users(id),
   CONSTRAINT trolley_location_logs_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(id),
-  CONSTRAINT trolley_location_logs_detected_by_fkey FOREIGN KEY (detected_by) REFERENCES public.users(id)
+  CONSTRAINT trolley_location_logs_trolley_id_fkey FOREIGN KEY (trolley_id) REFERENCES public.trolleys(id)
 );
 
 CREATE TABLE public.trolley_statuses (

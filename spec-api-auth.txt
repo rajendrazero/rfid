@@ -20,7 +20,8 @@
                   "username": { "type": "string" },
                   "password": { "type": "string" },
                   "fullName": { "type": "string" },
-                  "email": { "type": "string", "format": "email" }
+                  "email": { "type": "string", "format": "email" },
+		  "role": {"type": "string }
                 },
                 "required": ["username", "password"]
               }
@@ -39,7 +40,8 @@
                     "userId": "uuid",
                     "username": "user1",
                     "fullName": "Andi Umum",
-                    "email": "user1@example.com"
+                    "email": "user1@example.com",
+		    "role": "user"
                   }
                 }
               }
@@ -191,87 +193,125 @@
         }
       }
     },
-    {
-  "paths": {
-    "/trolleys": {
-      "get": {
-        "summary": "Ambil semua troli (dengan filter, pencarian, dan pagination)",
-        "tags": ["Trolleys"],
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "name": "location_id",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "string", "format": "uuid" },
-            "description": "Filter berdasarkan lokasi troli saat ini"
-          },
-          {
-            "name": "status_id",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "string", "format": "uuid" },
-            "description": "Filter berdasarkan status troli"
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "string" },
-            "description": "Pencarian berdasarkan kode troli atau RFID"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 20,
-              "maximum": 1000,
-              "default": 20
-            },
-            "description": "Jumlah data per halaman"
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "integer", "default": 1 },
-            "description": "Nomor halaman"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Daftar troli yang difilter dan dipaginasi",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": true,
-                  "message": "Success",
-                  "data": {
-                    "trolleys": [
-                      {
-                        "id": "uuid",
-                        "rfid_code": "RF123456",
-                        "trolley_code": "TR-01",
-                        "status": {
-                          "id": "uuid",
-                          "name": "Aktif"
-                        },
-                        "location": {
-                          "id": "uuid",
-                          "name": "Terminal 1"
-                        }
-                      }
-                    ],
-                    "pagination": {
-                      "page": 1,
-                      "limit": 20,
-                      "total": 340
+"/trolleys": {
+  "get": {
+    "summary": "Ambil semua troli (dengan filter, pencarian, pagination, dan informasi lokasi visualisasi)",
+    "tags": ["Trolleys"],
+    "security": [{ "bearerAuth": [] }],
+    "parameters": [
+      {
+        "name": "location_id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "uuid" },
+        "description": "Filter berdasarkan lokasi troli saat ini"
+      },
+      {
+        "name": "status_id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "uuid" },
+        "description": "Filter berdasarkan status troli"
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Pencarian berdasarkan kode troli atau RFID"
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 20,
+          "maximum": 1000,
+          "default": 20
+        },
+        "description": "Jumlah data per halaman"
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Nomor halaman"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Daftar troli yang difilter, dipaginasi, dan dapat divisualisasi dalam peta",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": true,
+              "message": "Success",
+              "data": {
+                "trolleys": [
+                  {
+                    "id": "uuid",
+                    "rfid_code": "RF123456",
+                    "trolley_code": "TR-01",
+                    "status": {
+                      "id": "uuid",
+                      "name": "Aktif"
+                    },
+                    "location": {
+                      "id": "uuid",
+                      "name": "Terminal 1",
+                      "x_coordinate": 120.5,
+                      "y_coordinate": 310.2
+                    }
+                  },
+                  {
+                    "id": "uuid",
+                    "rfid_code": "RF654321",
+                    "trolley_code": "TR-02",
+                    "status": {
+                      "id": "uuid",
+                      "name": "Tersedia"
+                    },
+                    "location": {
+                      "id": "uuid",
+                      "name": "Terminal 2",
+                      "x_coordinate": 80.0,
+                      "y_coordinate": 500.4
                     }
                   }
+                ],
+                "pagination": {
+                  "page": 1,
+                  "limit": 20,
+                  "total": 340
                 }
               }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Parameter query tidak valid",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "Parameter 'status_id' harus berupa UUID yang valid",
+              "error": 400
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Data tidak ditemukan",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": false,
+              "message": "Tidak ada troli yang cocok dengan filter pencarian",
+              "data": [],
+              "error": 404
             }
           }
         }
@@ -279,7 +319,6 @@
     }
   }
 },
-
     "/trolleys/{id}": {
       "get": {
         "summary": "Detail troli berdasarkan ID",
@@ -356,36 +395,282 @@
     }
   }
 }
-{
-  "paths": {
-    "/locations": {
-      "get": {
-        "summary": "Ambil daftar lokasi (untuk dropdown, filter, dll)",
-        "tags": ["Locations"],
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "string" },
-            "description": "Cari berdasarkan nama lokasi (opsional)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List lokasi berhasil diambil",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": true,
-                  "message": "Success",
-                  "data": [
-                    { "id": "uuid", "name": "Terminal 1", "description": "Terminal Kedatangan" },
-                    { "id": "uuid", "name": "Terminal 2", "description": "Terminal Keberangkatan" }
-                  ]
+
+
+"/locations": {
+  "get": {
+    "summary": "Ambil daftar lokasi (untuk dropdown, filter, dll)",
+    "tags": ["Locations"],
+    "security": [{ "bearerAuth": [] }],
+    "parameters": [
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Cari berdasarkan nama lokasi (opsional)"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List lokasi berhasil diambil",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": true,
+              "message": "Success",
+              "data": [
+                {
+                  "id": "uuid",
+                  "name": "Terminal 1",
+                  "description": "Terminal Kedatangan",
+                  "x_coordinate": 120.5,
+                  "y_coordinate": 310.2
+                },
+                {
+                  "id": "uuid",
+                  "name": "Terminal 2",
+                  "description": "Terminal Keberangkatan",
+                  "x_coordinate": 80.0,
+                  "y_coordinate": 500.4
                 }
+              ]
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Validasi gagal",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "Parameter 'search' harus berupa string",
+              "error": 400
+            }
+          }
+        }
+      }
+    }
+  }
+}
+"/trolley-statuses": {
+  "get": {
+    "summary": "Ambil daftar status troli (untuk dropdown, filter, dll)",
+    "tags": ["Trolley Statuses"],
+    "security": [{ "bearerAuth": [] }],
+    "responses": {
+      "200": {
+        "description": "List status troli berhasil diambil",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": true,
+              "message": "Success",
+              "data": [
+                {
+                  "id": "uuid",
+                  "name": "Tersedia",
+                  "description": "Troli siap digunakan"
+                },
+                {
+                  "id": "uuid",
+                  "name": "Digunakan",
+                  "description": "Troli sedang digunakan oleh penumpang"
+                },
+                {
+                  "id": "uuid",
+                  "name": "Maintenance",
+                  "description": "Troli sedang dalam perbaikan"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Permintaan tidak valid",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "Parameter tidak valid",
+              "error": 400
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "post": {
+    "summary": "Buat status troli baru",
+    "tags": ["Trolley Statuses"],
+    "security": [{ "bearerAuth": [] }],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "Sedang dibersihkan"
+              },
+              "description": {
+                "type": "string",
+                "example": "Troli dalam proses pembersihan setelah digunakan."
               }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Status berhasil ditambahkan",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": true,
+              "message": "Status berhasil dibuat",
+              "data": {
+                "id": "uuid",
+                "name": "Sedang dibersihkan",
+                "description": "Troli dalam proses pembersihan setelah digunakan."
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Validasi gagal",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "Property 'name' harus diisi dan berupa string",
+              "error": 400
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+"/trolleys/{id}/location-logs": {
+  "post": {
+    "summary": "Catat lokasi terbaru dari troli tertentu",
+    "description": "Endpoint ini digunakan untuk mencatat log lokasi baru dari sebuah troli. Digunakan dalam sistem pelacakan dan visualisasi pergerakan troli.",
+    "tags": ["Trolleys", "Location Logs"],
+    "security": [{ "bearerAuth": [] }],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "UUID dari troli",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["location_id"],
+            "properties": {
+              "location_id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "UUID lokasi tempat troli terdeteksi"
+              },
+              "detected_by": {
+                "type": "string",
+                "format": "uuid",
+                "description": "UUID user/sensor yang mendeteksi (opsional)"
+              },
+              "x_offset": {
+                "type": "number",
+                "description": "Offset X dari pusat lokasi (jika ada)"
+              },
+              "y_offset": {
+                "type": "number",
+                "description": "Offset Y dari pusat lokasi (jika ada)"
+              }
+            }
+          },
+          "example": {
+            "location_id": "a6c31c6e-bcc9-4b89-9320-7398b5dabc21",
+            "detected_by": "7f01fbd7-3dc4-4bfe-91e6-e9836f81c6e9",
+            "x_offset": 3.2,
+            "y_offset": 5.1
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Log lokasi berhasil ditambahkan",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": true,
+              "message": "Log lokasi berhasil dicatat",
+              "data": {
+                "id": "uuid-log",
+                "trolley_id": "uuid-trolley",
+                "location_id": "uuid-location",
+                "detected_at": "2025-06-15T14:55:00.000Z",
+                "detected_by": "uuid-user",
+                "x_offset": 3.2,
+                "y_offset": 5.1
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Validasi gagal",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "location_id harus diisi",
+              "error": 400
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Troli tidak ditemukan",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "Troli dengan ID tersebut tidak ditemukan",
+              "error": 404
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Terjadi kesalahan internal server",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "error",
+              "message": "Gagal mencatat log lokasi",
+              "error": 500
             }
           }
         }
