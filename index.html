@@ -116,7 +116,7 @@
     <div class="sidebar w-64 flex-shrink-0">
         <div class="p-6">
             <h1 class="text-xl font-bold flex items-center">
-                <i class="fas fa-plane mr-2"></i> Troli Bandara
+                <i class="fas fa-plane mr-2 text-blue-500"></i> Troli Bandara
             </h1>
             <p class="text-gray-400 text-sm mt-1">Dokumentasi Proyek</p>
         </div>
@@ -126,27 +126,39 @@
             <ul>
                 <li class="mb-1">
                     <a href="#progress" class="sidebar-item block py-3 px-4 rounded flex items-center">
-                        <i class="fas fa-tasks mr-3"></i> Progress & Absensi
+                        <i class="fas fa-tasks mr-3 text-purple-500"></i> Progress & Absensi
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#requirements" class="sidebar-item block py-3 px-4 rounded flex items-center">
-                        <i class="fas fa-bullseye mr-3"></i> Tujuan & Requirements
+                        <i class="fas fa-bullseye mr-3 text-red-500"></i> Tujuan & Requirements
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#api" class="sidebar-item active block py-3 px-4 rounded flex items-center">
-                        <i class="fas fa-code mr-3"></i> Spesifikasi API
+                        <i class="fas fa-code mr-3 text-green-500"></i> Spesifikasi API
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#db" class="sidebar-item block py-3 px-4 rounded flex items-center">
-                        <i class="fas fa-database mr-3"></i> Struktur Database
+                        <i class="fas fa-database mr-3 text-yellow-500"></i> Struktur Database
+                    </a>
+                </li>
+                <!-- Tambahan baru: Tahapan Pembuatan API -->
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-layer-group mr-3 text-blue-500"></i> Tahapan Pembuatan API
+                    </a>
+                </li>
+                <!-- Tambahan baru: Implementasi Teknis -->
+                <li class="mb-1">
+                    <a href="#technical-implementation" class="sidebar-item block py-3 px-4 rounded flex items-center">
+                        <i class="fas fa-cogs mr-3 text-indigo-500"></i> Implementasi Teknis
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#timeline" class="sidebar-item block py-3 px-4 rounded flex items-center">
-                        <i class="fas fa-calendar-alt mr-3"></i> Timeline Backend
+                        <i class="fas fa-calendar-alt mr-3 text-orange-500"></i> Timeline Backend
                     </a>
                 </li>
             </ul>
@@ -158,32 +170,75 @@
             <ul>
                 <li class="mb-1">
                     <a href="#api-auth" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <i class="fas fa-key mr-2 text-blue-400"></i> Autentikasi
+                        <i class="fas fa-key mr-2 text-blue-500"></i> Autentikasi
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#api-trolleys" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <i class="fas fa-shopping-cart mr-2 text-green-400"></i> Troli
+                        <i class="fas fa-shopping-cart mr-2 text-green-500"></i> Troli
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#api-statuses" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <i class="fas fa-tag mr-2 text-orange-400"></i> Status Troli
+                        <i class="fas fa-tag mr-2 text-yellow-500"></i> Status Troli
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#api-locations" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <i class="fas fa-map-marker-alt mr-2 text-red-400"></i> Lokasi
+                        <i class="fas fa-map-marker-alt mr-2 text-red-500"></i> Lokasi
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#api-monitoring" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <i class="fas fa-chart-line mr-2 text-purple-400"></i> Monitoring
+                        <i class="fas fa-chart-line mr-2 text-purple-500"></i> Monitoring
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#api-users" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <i class="fas fa-users mr-2 text-indigo-400"></i> Manajemen Pengguna
+                        <i class="fas fa-users mr-2 text-indigo-500"></i> Manajemen Pengguna
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Navigasi Tahapan Pembuatan API -->
+        <div class="px-4 py-3 border-t border-gray-800">
+            <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Tahapan Pembuatan API</h2>
+            <ul>
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-blue-100 text-blue-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">1</span>
+                        Setup Autentikasi
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-green-100 text-green-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">2</span>
+                        Manajemen Troli
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-purple-100 text-purple-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">3</span>
+                        Pelacakan Lokasi
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">4</span>
+                        Manajemen Status & Lokasi
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-red-100 text-red-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">5</span>
+                        Sistem Monitoring
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">6</span>
+                        Manajemen Pengguna Lanjut
                     </a>
                 </li>
             </ul>
@@ -210,28 +265,38 @@
                 <li class="mb-2 flex items-center text-sm">
                     <i class="fas fa-check-circle text-green-500 mr-2"></i> Detail informasi troli
                 </li>
+                <!-- Tambahan baru untuk fitur RFID -->
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-spinner text-yellow-500 mr-2"></i> Pelacakan RFID Real-time
+                </li>
+                <li class="mb-2 flex items-center text-sm">
+                    <i class="fas fa-spinner text-yellow-500 mr-2"></i> Visualisasi Peta Troli
+                </li>
             </ul>
         </div>
-        
         
         <div class="px-4 py-6 border-t border-gray-800">
             <div class="bg-gray-800 rounded-lg p-4">
                 <h3 class="text-sm font-semibold mb-2">Statistik Proyek</h3>
                 <div class="flex justify-between text-xs mb-1">
                     <span>Selesai</span>
-                    <span>55%</span>
+                    <span>65%</span>
                 </div>
-                <div class="progress-bar w-full bg-gray-700 rounded-full">
-                    <div class="progress-bar h-full bg-green-500 rounded-full" style="width: 55%"></div>
+                <div class="progress-bar w-full bg-gray-700 rounded-full h-2">
+                    <div class="h-full bg-green-500 rounded-full" style="width: 65%"></div>
                 </div>
                 <div class="mt-3 text-xs text-gray-400">
                     <div class="flex justify-between">
                         <span>Fitur:</span>
-                        <span>2/7</span>
+                        <span>6/10</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Modul:</span>
-                        <span>2/5</span>
+                        <span>4/6</span>
+                    </div>
+                    <div class="flex justify-between mt-2">
+                        <span>Tahapan API:</span>
+                        <span>3/6</span>
                     </div>
                 </div>
             </div>
@@ -408,7 +473,6 @@
             </div>
         </section>
         
-
         <!-- Spesifikasi API -->
         <section id="api" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Spesifikasi API</h2>
@@ -1604,7 +1668,355 @@ CREATE TABLE public.users (
 );</pre>
             </div>
         </section>
+                
+        <!-- Tahapan Pembuatan API -->
+        <section id="development-stages" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Tahapan Pembuatan API</h2>
+            
+            <!-- Tahap 1: Setup Autentikasi -->
+            <div class="card p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <span class="bg-blue-100 text-blue-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                <h3 class="text-xl font-semibold">Setup Autentikasi</h3>
+                <span class="ml-auto bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Fundamental</span>
+            </div>
+            
+            <p class="mb-4 text-gray-700">
+                Implementasi sistem keamanan dan manajemen pengguna sebagai dasar semua fungsi API.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-user-plus text-blue-500 mr-2"></i> Endpoint Prioritas
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code>POST /auth/register</code> - Pendaftaran user/admin</li>
+                    <li><code>POST /auth/login</code> - Login dengan JWT</li>
+                    <li><code>POST /auth/refresh</code> - Refresh token</li>
+                    <li><code>POST /auth/logout</code> - Terminate session</li>
+                </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-tasks text-blue-500 mr-2"></i> Workflow Implementasi
+                </h4>
+                <ol class="list-decimal pl-5 space-y-1">
+                    <li>Setup database user</li>
+                    <li>Implementasi JWT authentication</li>
+                    <li>Role-based access control</li>
+                    <li>Token refresh mechanism</li>
+                </ol>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                <i class="fas fa-lightbulb mr-2"></i> Best Practice
+                </h4>
+                <p class="text-sm text-blue-700">
+                Gunakan middleware otentikasi untuk melindungi endpoint sensitif. Simpan refresh token di database untuk validasi.
+                </p>
+            </div>
+            </div>
+            
+            <!-- Tahap 2: Manajemen Troli -->
+            <div class="card p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <span class="bg-green-100 text-green-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                <h3 class="text-xl font-semibold">Manajemen Troli</h3>
+                <span class="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">Core Business Logic</span>
+            </div>
+            
+            <p class="mb-4 text-gray-700">
+                Membangun sistem CRUD troli dasar sebagai inti aplikasi manajemen troli.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-shopping-cart text-green-500 mr-2"></i> Endpoint Prioritas
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code>POST /trolleys</code> - Buat troli baru</li>
+                    <li><code>GET /trolleys</code> - Ambil daftar troli (filter/pagination)</li>
+                    <li><code>GET /trolleys/{id}</code> - Detail troli spesifik</li>
+                    <li><code>PUT /trolleys/{id}</code> - Update data troli</li>
+                    <li><code>DELETE /trolleys/{id}</code> - Hapus troli</li>
+                </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-project-diagram text-green-500 mr-2"></i> Struktur Data
+                </h4>
+                <pre class="text-xs bg-gray-100 p-2 rounded">Troli {
+            id: UUID
+            rfid_code: String
+            trolley_code: String
+            status_id: UUID (FK)
+            created_at: DateTime
+            updated_at: DateTime
+        }</pre>
+                </div>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                <i class="fas fa-exclamation-triangle mr-2"></i> Penting
+                </h4>
+                <p class="text-sm text-green-700">
+                Implementasikan validasi RFID unik untuk mencegah duplikasi. Gunakan soft delete untuk riwayat historis.
+                </p>
+            </div>
+            </div>
+            
+            <!-- Tahap 3: Pelacakan Lokasi -->
+            <div class="card p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <span class="bg-purple-100 text-purple-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                <h3 class="text-xl font-semibold">Pelacakan Lokasi</h3>
+                <span class="ml-auto bg-purple-500 text-white text-xs px-2 py-1 rounded-full">Core RFID Functionality</span>
+            </div>
+            
+            <p class="mb-4 text-gray-700">
+                Implementasi sistem pelacakan berbasis RFID untuk memonitor pergerakan troli secara real-time.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-map-marker-alt text-purple-500 mr-2"></i> Endpoint Prioritas
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code>POST /trolleys/{id}/location-logs</code> - Catat lokasi baru</li>
+                    <li><code>GET /trolleys/{id}/logs</code> - Riwayat lokasi troli</li>
+                    <li><code>GET /trolleys/location/{rfid}</code> - Lokasi terkini via RFID</li>
+                </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-rfid text-purple-500 mr-2"></i> Workflow RFID
+                </h4>
+                <ol class="list-decimal pl-5 space-y-1">
+                    <li>Troli terdeteksi oleh RFID reader</li>
+                    <li>Kirim lokasi ke endpoint API</li>
+                    <li>Update database dengan lokasi baru</li>
+                    <li>Tampilkan di peta real-time</li>
+                </ol>
+                </div>
+            </div>
+            
+            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <h4 class="font-medium text-purple-800 mb-2 flex items-center">
+                <i class="fas fa-wifi mr-2"></i> Integrasi Hardware
+                </h4>
+                <p class="text-sm text-purple-700">
+                Pastikan RFID reader dikonfigurasi untuk POST request ke endpoint lokasi-logs setiap kali troli terdeteksi.
+                Gunakan koordinat offset untuk akurasi posisi.
+                </p>
+            </div>
+            </div>
+            
+            <!-- Tahap 4: Manajemen Metadata -->
+            <div class="card p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <span class="bg-yellow-100 text-yellow-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                <h3 class="text-xl font-semibold">Manajemen Status & Lokasi</h3>
+                <span class="ml-auto bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">Metadata Management</span>
+            </div>
+            
+            <p class="mb-4 text-gray-700">
+                Sistem pendukung untuk operasional troli berupa manajemen status dan lokasi bandara.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-tags text-yellow-500 mr-2"></i> Endpoint Prioritas
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code>GET /trolley-statuses</code> - Daftar status troli</li>
+                    <li><code>POST /trolley-statuses</code> - Buat status baru (admin)</li>
+                    <li><code>GET /locations</code> - Daftar lokasi bandara</li>
+                </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-database text-yellow-500 mr-2"></i> Struktur Metadata
+                </h4>
+                <pre class="text-xs bg-gray-100 p-2 rounded">Status {
+            id: UUID
+            name: String (Tersedia, Digunakan, Maintenance)
+            description: String
+        }
         
+        Location {
+            id: UUID
+            name: String
+            x_coordinate: Float
+            y_coordinate: Float
+        }</pre>
+                </div>
+            </div>
+            
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i> Penggunaan
+                </h4>
+                <p class="text-sm text-yellow-700">
+                Status dan lokasi digunakan untuk filtering di dashboard utama. Koordinat lokasi digunakan untuk visualisasi peta.
+                </p>
+            </div>
+            </div>
+            
+            <!-- Tahap 5: Sistem Monitoring -->
+            <div class="card p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <span class="bg-red-100 text-red-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
+                <h3 class="text-xl font-semibold">Sistem Monitoring</h3>
+                <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">Admin Dashboard</span>
+            </div>
+            
+            <p class="mb-4 text-gray-700">
+                Fitur pengawasan untuk administrator memonitor aktivitas sistem dan pengguna.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-chart-line text-red-500 mr-2"></i> Endpoint Prioritas
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code>GET /users/monitoring</code> - Aktivitas user & akses troli</li>
+                </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-user-clock text-red-500 mr-2"></i> Data yang Dimonitor
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>User aktif (last login)</li>
+                    <li>Aktivitas terakhir user</li>
+                    <li>Statistik akses troli</li>
+                    <li>Top user pengakses troli</li>
+                </ul>
+                </div>
+            </div>
+            
+            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                <h4 class="font-medium text-red-800 mb-2 flex items-center">
+                <i class="fas fa-shield-alt mr-2"></i> Keamanan
+                </h4>
+                <p class="text-sm text-red-700">
+                Hanya admin yang bisa mengakses endpoint ini. Audit log harus mencatat semua akses ke data monitoring.
+                </p>
+            </div>
+            </div>
+            
+            <!-- Tahap 6: Manajemen Pengguna Lanjut -->
+            <div class="card p-6">
+            <div class="flex items-center mb-4">
+                <span class="bg-indigo-100 text-indigo-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
+                <h3 class="text-xl font-semibold">Manajemen Pengguna Lanjut</h3>
+                <span class="ml-auto bg-indigo-500 text-white text-xs px-2 py-1 rounded-full">Admin Controls</span>
+            </div>
+            
+            <p class="mb-4 text-gray-700">
+                Fitur administratif untuk manajemen pengguna dan kontrol akses sistem.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-users-cog text-indigo-500 mr-2"></i> Endpoint Prioritas
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code>PATCH /users/{id}/role</code> - Ubah peran user (admin)</li>
+                </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 flex items-center">
+                    <i class="fas fa-user-lock text-indigo-500 mr-2"></i> Kontrol Akses
+                </h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>Admin bisa ubah role user lain</li>
+                    <li>Admin tidak bisa ubah role sendiri</li>
+                    <li>Verifikasi ganda untuk perubahan role</li>
+                </ul>
+                </div>
+            </div>
+            
+            <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+                <h4 class="font-medium text-indigo-800 mb-2 flex items-center">
+                <i class="fas fa-clipboard-list mr-2"></i> Audit Log
+                </h4>
+                <p class="text-sm text-indigo-700">
+                Catat semua perubahan role dengan informasi: user yang diubah, role baru, admin yang mengubah, dan timestamp.
+                </p>
+            </div>
+            </div>
+        </section>
+        
+        <!-- Urutan Implementasi Teknis -->
+        <section id="technical-implementation" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Urutan Implementasi Teknis</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Infrastructure Setup -->
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fas fa-server text-blue-500 mr-2"></i> Infrastructure Setup
+                </h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                <li>Node.js + Express framework</li>
+                <li>PostgreSQL + Sequelize ORM</li>
+                <li>JWT Authentication</li>
+                <li>Environment configuration</li>
+                <li>Error handling middleware</li>
+                </ol>
+            </div>
+            
+            <!-- Implementation Layers -->
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fas fa-layer-group text-green-500 mr-2"></i> Implementation Layers
+                </h3>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="text-center mb-2">Client</div>
+                <div class="text-center text-gray-400">↓</div>
+                <div class="text-center">Router</div>
+                <div class="text-center text-gray-400">↓</div>
+                <div class="text-center">Controller</div>
+                <div class="text-center text-gray-400">↓</div>
+                <div class="text-center">Service</div>
+                <div class="text-center text-gray-400">↓</div>
+                <div class="text-center">Database</div>
+                </div>
+            </div>
+            
+            <!-- Testing & Optimization -->
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fas fa-vial text-purple-500 mr-2"></i> Testing & Optimization
+                </h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                <li>Unit testing (Jest)</li>
+                <li>Integration testing</li>
+                <li>RFID accuracy testing</li>
+                <li>Pagination performance</li>
+                <li>Database indexing</li>
+                <li>Caching static data</li>
+                </ul>
+            </div>
+            </div>
+        </section>
+
         <!-- Timeline Backend -->
         <section id="timeline" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Timeline Pengembangan Backend (2 Minggu)</h2>
