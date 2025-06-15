@@ -311,42 +311,42 @@
             </ul>
         </div>
 
-        <!-- Navigasi Tahapan Pembuatan API -->
+        <!-- Di dalam sidebar (bagian Navigasi Tahapan Pembuatan API) -->
         <div class="px-4 py-3 border-t border-gray-800">
             <h2 class="text-sm uppercase text-gray-500 font-semibold mb-3">Tahapan Pembuatan API</h2>
             <ul>
                 <li class="mb-1">
-                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                    <a href="#stage-auth" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <span class="bg-blue-100 text-blue-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">1</span>
                         Setup Autentikasi
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                    <a href="#stage-troli" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <span class="bg-green-100 text-green-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">2</span>
                         Manajemen Troli
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                    <a href="#stage-lokasi" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <span class="bg-purple-100 text-purple-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">3</span>
                         Pelacakan Lokasi
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                    <a href="#stage-manajemen" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <span class="bg-yellow-100 text-yellow-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">4</span>
                         Manajemen Status & Lokasi
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                    <a href="#stage-monitoring" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <span class="bg-red-100 text-red-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">5</span>
                         Sistem Monitoring
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#development-stages" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                    <a href="#stage-manajemen-pengguna" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">6</span>
                         Manajemen Pengguna Lanjut
                     </a>
@@ -1784,7 +1784,7 @@ CREATE TABLE public.users (
             <h2 class="text-2xl font-bold mb-6">Tahapan Pembuatan API</h2>
             
             <!-- Tahap 1: Setup Autentikasi -->
-            <div class="card p-6 mb-8">
+            <div class="card p-6 mb-8" id="stage-auth">
             <div class="flex items-center mb-4">
                 <span class="bg-blue-100 text-blue-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
                 <h3 class="text-xl font-semibold">Setup Autentikasi</h3>
@@ -1832,7 +1832,7 @@ CREATE TABLE public.users (
             </div>
             
             <!-- Tahap 2: Manajemen Troli -->
-            <div class="card p-6 mb-8">
+            <div class="card p-6 mb-8" id="stage-troli">
             <div class="flex items-center mb-4">
                 <span class="bg-green-100 text-green-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
                 <h3 class="text-xl font-semibold">Manajemen Troli</h3>
@@ -1861,7 +1861,7 @@ CREATE TABLE public.users (
                 <h4 class="font-medium mb-2 flex items-center">
                     <i class="fas fa-project-diagram text-green-500 mr-2"></i> Struktur Data
                 </h4>
-                <pre class="text-xs bg-gray-100 p-2 rounded">Troli {
+                <pre class="text-xs bg-gray-100 p-2 rounded text-black">Troli {
             id: UUID
             rfid_code: String
             trolley_code: String
@@ -1883,7 +1883,7 @@ CREATE TABLE public.users (
             </div>
             
             <!-- Tahap 3: Pelacakan Lokasi -->
-            <div class="card p-6 mb-8">
+            <div class="card p-6 mb-8" id="stage-lokasi">
             <div class="flex items-center mb-4">
                 <span class="bg-purple-100 text-purple-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
                 <h3 class="text-xl font-semibold">Pelacakan Lokasi</h3>
@@ -1931,7 +1931,7 @@ CREATE TABLE public.users (
             </div>
             
             <!-- Tahap 4: Manajemen Metadata -->
-            <div class="card p-6 mb-8">
+            <div class="card p-6 mb-8"  id="stage-manajemen">
             <div class="flex items-center mb-4">
                 <span class="bg-yellow-100 text-yellow-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
                 <h3 class="text-xl font-semibold">Manajemen Status & Lokasi</h3>
@@ -1958,7 +1958,7 @@ CREATE TABLE public.users (
                 <h4 class="font-medium mb-2 flex items-center">
                     <i class="fas fa-database text-yellow-500 mr-2"></i> Struktur Metadata
                 </h4>
-                <pre class="text-xs bg-gray-100 p-2 rounded">Status {
+                <pre class="text-xs bg-gray-100 p-2 rounded text-black">Status {
             id: UUID
             name: String (Tersedia, Digunakan, Maintenance)
             description: String
@@ -1984,7 +1984,7 @@ CREATE TABLE public.users (
             </div>
             
             <!-- Tahap 5: Sistem Monitoring -->
-            <div class="card p-6 mb-8">
+            <div class="card p-6 mb-8" id="stage-monitoring">
             <div class="flex items-center mb-4">
                 <span class="bg-red-100 text-red-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
                 <h3 class="text-xl font-semibold">Sistem Monitoring</h3>
@@ -2029,7 +2029,7 @@ CREATE TABLE public.users (
             </div>
             
             <!-- Tahap 6: Manajemen Pengguna Lanjut -->
-            <div class="card p-6">
+            <div class="card p-6" id="stage-manajemen-pengguna">
             <div class="flex items-center mb-4">
                 <span class="bg-indigo-100 text-indigo-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
                 <h3 class="text-xl font-semibold">Manajemen Pengguna Lanjut</h3>
