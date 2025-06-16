@@ -175,6 +175,52 @@
             padding-left: 0;
             padding-top: 20%;
         }
+
+        .code-block {
+            position: relative;
+            background: #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8f8f2;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: #4CAF50;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .copy-btn i {
+            font-size: 14px;
+        }
         
         /* Diubah: Aturan untuk desktop */
         @media (min-width: 1024px) {
@@ -294,6 +340,11 @@
                     </a>
                 </li>
                 <li class="mb-1">
+                    <a href="#api-monitoring-readers" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <i class="fas fa-microchip mr-2 text-green-500"></i> Monitoring RFID Reader
+                    </a>
+                </li> 
+                <li class="mb-1">
                     <a href="#api-locations" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
                         <i class="fas fa-map-marker-alt mr-2 text-red-500"></i> Lokasi
                     </a>
@@ -328,26 +379,32 @@
                     </a>
                 </li>
                 <li class="mb-1">
+                    <a href="#stage-rfid" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
+                        <span class="bg-green-100 text-green-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">3</span>
+                        Monitoring Perangkat RFID
+                    </a>
+                </li>                
+                <li class="mb-1">
                     <a href="#stage-lokasi" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <span class="bg-purple-100 text-purple-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">3</span>
+                        <span class="bg-purple-100 text-purple-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">4</span>
                         Pelacakan Lokasi
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#stage-manajemen" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">4</span>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">5</span>
                         Manajemen Status & Lokasi
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#stage-monitoring" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <span class="bg-red-100 text-red-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">5</span>
+                        <span class="bg-red-100 text-red-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">6</span>
                         Sistem Monitoring
                     </a>
                 </li>
                 <li class="mb-1">
                     <a href="#stage-manajemen-pengguna" class="sidebar-subitem block py-2 px-4 pl-8 rounded flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">6</span>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs w-5 h-5 flex items-center justify-center rounded-full mr-2">7</span>
                         Manajemen Pengguna Lanjut
                     </a>
                 </li>
@@ -587,329 +644,418 @@
         <section id="api" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Spesifikasi API</h2>
                         
-        <!-- Endpoint Autentikasi -->
-        <div class="card p-6 mb-8" id="api-auth">
-            <h3 class="text-lg font-semibold mb-4">Endpoint Autentikasi</h3>
-        
-            <!-- Register -->
-            <div class="api-endpoint p-5 rounded-lg mb-6">
-            <div class="flex items-center mb-2">
-                <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">POST</span>
-                <span class="font-mono text-lg">/auth/register</span>
-            </div>
-            <p class="text-gray-700 mb-3">Mendaftarkan pengguna baru (role: <code>user</code> atau <code>admin</code>)</p>
-        
-            <h4 class="font-medium mb-2">Request Body</h4>
-            <pre class="rounded p-3 text-sm">{
-            "username": "string",
-            "password": "string",
-            "fullName": "string",
-            "email": "string",
-            "role": "string"
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Success 201)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Success",
-            "data": {
-            "userId": "uuid",
-            "username": "user1",
-            "fullName": "Andi Umum",
-            "email": "user1@example.com",
-            "role": "user"
-            }
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Error 400)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": false,
-            "message": "Validasi gagal",
-            "errors": {
-            "username": "Username sudah digunakan",
-            "email": "Email tidak valid atau sudah terdaftar"
-            }
-        }</pre>
-            </div>
-        
-            <!-- Login -->
-            <div class="api-endpoint p-5 rounded-lg mb-6">
-            <div class="flex items-center mb-2">
-                <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
-                <span class="font-mono text-lg">/auth/login</span>
-            </div>
-            <p class="text-gray-700 mb-3">Login pengguna <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Baru: refresh token disimpan di database</span></p>
-        
-            <h4 class="font-medium mb-2">Request Body</h4>
-            <pre class="rounded p-3 text-sm">{
-            "username": "string",
-            "password": "string"
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Success",
-            "data": {
-            "access_token": "&lt;JWT_access_token&gt;",
-            "refresh_token": "&lt;JWT_refresh_token&gt;"
-            }
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Error 401)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": false,
-            "message": "Username atau password salah"
-        }</pre>
-            </div>
-        
-            <!-- Logout -->
-            <div class="api-endpoint p-5 rounded-lg mb-6">
-            <div class="flex items-center mb-2">
-                <span class="inline-block px-3 py-1 bg-red-500 text-white rounded mr-3">POST</span>
-                <span class="font-mono text-lg">/auth/logout</span>
-            </div>
-            <p class="text-gray-700 mb-3">Logout pengguna <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Baru: revoke token di database</span></p>
-            <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
-        
-            <h4 class="font-medium mb-2">Request Body</h4>
-            <pre class="rounded p-3 text-sm">{
-            "refresh_token": "string"
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Logout berhasil"
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Error 400/401)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": false,
-            "message": "Token tidak valid atau sudah kadaluarsa"
-        }</pre>
-            </div>
-        
-            <!-- Refresh Token -->
-            <div class="api-endpoint p-5 rounded-lg mb-6">
-            <div class="flex items-center mb-2">
-                <span class="inline-block px-3 py-1 bg-purple-500 text-white rounded mr-3">POST</span>
-                <span class="font-mono text-lg">/auth/refresh</span>
-            </div>
-            <p class="text-gray-700 mb-3">Refresh token akses <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Baru: validasi token di database</span></p>
-        
-            <h4 class="font-medium mb-2">Request Body</h4>
-            <pre class="rounded p-3 text-sm">{
-            "refresh_token": "string"
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Success",
-            "data": {
-            "access_token": "new_access_token",
-            "refresh_token": "new_refresh_token"
-            }
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Error 400)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": false,
-            "message": "Refresh token tidak valid atau telah dicabut"
-        }</pre>
-            </div>
-        
-            <!-- Logout All Devices -->
-            <div class="api-endpoint p-5 rounded-lg">
-            <div class="flex items-center mb-2">
-                <span class="inline-block px-3 py-1 bg-orange-500 text-white rounded mr-3">POST</span>
-                <span class="font-mono text-lg">/auth/logout-all</span>
-            </div>
-            <p class="text-gray-700 mb-3">Logout semua perangkat <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Fitur baru</span></p>
-            <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
-            <p class="text-sm text-gray-500 mb-3 italic">Endpoint ini tidak membutuhkan request body.</p>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Logout semua perangkat berhasil"
-        }</pre>
-        
-            <h4 class="font-medium mt-4 mb-2">Response (Error 401)</h4>
-            <pre class="rounded p-3 text-sm">{
-            "status": false,
-            "message": "Token tidak valid atau tidak terautentikasi"
-        }</pre>
-            </div>
-        </div>
-  
+            <!-- Endpoint Autentikasi -->
+            <div class="card p-6 mb-8" id="api-auth">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Autentikasi</h3>
             
+                <!-- Register -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                <div class="flex items-center mb-2">
+                    <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">POST</span>
+                    <span class="font-mono text-lg">/auth/register</span>
+                </div>
+                <p class="text-gray-700 mb-3">Mendaftarkan pengguna baru (role: <code>user</code> atau <code>admin</code>)</p>
+            
+                <h4 class="font-medium mb-2">Request Body</h4>
+                <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="register-request-body">
+{
+    "username": "string",
+    "password": "string",
+    "fullName": "string",
+    "email": "string",
+    "role": "string"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="register-request-body">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+            
+                <h4 class="font-medium mt-4 mb-2">Response (Success 201)</h4>
+                <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="register-respon-body">
+{
+    "status": true,
+    "message": "Success",
+    "data": {
+        "userId": "uuid",
+        "username": "user1",
+        "fullName": "Andi Umum",
+        "email": "user1@example.com",
+        "role": "user"
+    }
+}
+                    </pre>
+                    <button class="copy-btn" data-target="register-respon-body">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+            
+                <h4 class="font-medium mt-4 mb-2">Response (Error 400)</h4>
+                <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="register-error">
+{
+    "status": false,
+    "message": "Validasi gagal",
+    "errors": {
+        "username": "Username sudah digunakan",
+        "email": "Email tidak valid atau sudah terdaftar"
+    }
+}
+                    </pre>
+                    <button class="copy-btn" data-target="register-error">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+                </div>
+                            
+                <!-- Login -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                    <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
+                    <span class="font-mono text-lg">/auth/login</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Login pengguna <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Baru: refresh token disimpan di database</span></p>
+                
+                    <h4 class="font-medium mb-2">Request Body</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="login-request">
+{
+    "username": "string",
+    "password": "string"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="login-request">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="login-success">
+{
+    "status": true,
+    "message": "Success",
+    "data": {
+    "access_token": "&lt;JWT_access_token&gt;",
+    "refresh_token": "&lt;JWT_refresh_token&gt;"
+    }
+}
+                    </pre>
+                    <button class="copy-btn" data-target="login-success">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Error 401)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="login-error">
+{
+    "status": false,
+    "message": "Username atau password salah"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="login-error">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                </div>
+                
+                            
+                <!-- Logout -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                    <span class="inline-block px-3 py-1 bg-red-500 text-white rounded mr-3">POST</span>
+                    <span class="font-mono text-lg">/auth/logout</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Logout pengguna <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Baru: revoke token di database</span></p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                
+                    <h4 class="font-medium mb-2">Request Body</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="logout-request">
+{
+    "refresh_token": "string"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="logout-request">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="logout-success">
+{
+    "status": true,
+    "message": "Logout berhasil"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="logout-success">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Error 400/401)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="logout-error">
+{
+    "status": false,
+    "message": "Token tidak valid atau sudah kadaluarsa"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="logout-error">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                </div>
+                
+                            
+                <!-- Refresh Token -->
+                <div class="api-endpoint p-5 rounded-lg mb-6">
+                    <div class="flex items-center mb-2">
+                    <span class="inline-block px-3 py-1 bg-purple-500 text-white rounded mr-3">POST</span>
+                    <span class="font-mono text-lg">/auth/refresh</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Refresh token akses <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Baru: validasi token di database</span></p>
+                
+                    <h4 class="font-medium mb-2">Request Body</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="refresh-request">
+{
+    "refresh_token": "string"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="refresh-request">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="refresh-success">
+{
+    "status": true,
+    "message": "Success",
+    "data": {
+    "access_token": "new_access_token",
+    "refresh_token": "new_refresh_token"
+    }
+}
+                    </pre>
+                    <button class="copy-btn" data-target="refresh-success">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Error 400)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="refresh-error">
+{
+    "status": false,
+    "message": "Refresh token tidak valid atau telah dicabut"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="refresh-error">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                </div>
+                
+                            
+                <!-- Logout All Devices -->
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                    <span class="inline-block px-3 py-1 bg-orange-500 text-white rounded mr-3">POST</span>
+                    <span class="font-mono text-lg">/auth/logout-all</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Logout semua perangkat <span class="bg-yellow-100 text-red-500 px-2 py-1 ml-2 text-sm rounded">Fitur baru</span></p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    <p class="text-sm text-gray-500 mb-3 italic">Endpoint ini tidak membutuhkan request body.</p>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Success 200)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="logout-all-success">
+{
+    "status": true,
+    "message": "Logout semua perangkat berhasil"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="logout-all-success">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                
+                    <h4 class="font-medium mt-4 mb-2">Response (Error 401)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="logout-all-error">
+{
+    "status": false,
+    "message": "Token tidak valid atau tidak terautentikasi"
+}
+                    </pre>
+                    <button class="copy-btn" data-target="logout-all-error">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                    </div>
+                </div>
+            </div>
+    
             <!-- Endpoint Troli -->
             <div class="card p-6 mb-8" id="api-trolleys">
                 <h3 class="text-lg font-semibold mb-4">Endpoint Troli</h3>
                 
                 <!-- GET /trolleys (with filter, search, pagination, and visualization info) -->
                 <div class="api-endpoint p-5 rounded-lg mb-6">
-                    <div class="flex items-center mb-2">
-                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
-                        <span class="font-mono text-lg">/trolleys</span>
-                    </div>
-                    <p class="text-gray-700 mb-3">Ambil semua troli (dengan filter, pencarian, pagination, dan informasi lokasi untuk visualisasi)</p>
-                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium mb-2">Parameters</h4>
-                        <div class="bg-gray-100 p-3 rounded text-sm">
-                            <div class="mb-2">
-                                <span class="font-mono">location_id</span> (optional, UUID) - Filter berdasarkan lokasi troli saat ini
-                            </div>
-                            <div class="mb-2">
-                                <span class="font-mono">status_id</span> (optional, UUID) - Filter berdasarkan status troli
-                            </div>
-                            <div class="mb-2">
-                                <span class="font-mono">search</span> (optional, string) - Pencarian berdasarkan kode troli atau RFID
-                            </div>
-                            <div class="mb-2">
-                                <span class="font-mono">limit</span> (optional, integer, default: 20, min: 20) - Jumlah data per halaman
-                            </div>
-                            <div>
-                                <span class="font-mono">page</span> (optional, integer, default: 1) - Nomor halaman
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
-                        <pre class="rounded p-3 text-sm">{
-                    "status": true,
-                    "message": "Success",
-                    "data": {
-                        "trolleys": [
-                            {
-                                "id": "uuid",
-                                "rfid_code": "RF123456",
-                                "trolley_code": "TR-01",
-                                "status": {
-                                    "id": "uuid",
-                                    "name": "Aktif"
-                                },
-                                "location": {
-                                    "id": "uuid",
-                                    "name": "Terminal 1",
-                                    "x_coordinate": 120.5,
-                                    "y_coordinate": 310.2,
-                                    "z_coordinate": 0.0
-                                }
-                            },
-                            {
-                                "id": "uuid",
-                                "rfid_code": "RF654321",
-                                "trolley_code": "TR-02",
-                                "status": {
-                                    "id": "uuid",
-                                    "name": "Tersedia"
-                                },
-                                "location": {
-                                    "id": "uuid",
-                                    "name": "Terminal 2",
-                                    "x_coordinate": 80.0,
-                                    "y_coordinate": 500.4,
-                                    "z_coordinate": 1.5
-                                }
-                            }
-                        ],
-                        "pagination": {
-                            "page": 1,
-                            "limit": 20,
-                            "total": 340
-                        }
-                    }
-                }</pre>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-2">Response (Error 400)</h4>
-                        <pre class="rounded p-3 text-sm">{
-                    "status": "error",
-                    "message": "Parameter 'status_id' harus berupa UUID yang valid",
-                    "error": 400
-                }</pre>
-                        <p class="text-sm text-gray-600 mt-2">
-                            Terjadi ketika parameter query tidak valid
-                        </p>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-2">Response (Error 404)</h4>
-                        <pre class="rounded p-3 text-sm">{
-                    "status": false,
-                    "message": "Tidak ada troli yang cocok dengan filter pencarian",
-                    "data": [],
-                    "error": 404
-                }</pre>
-                        <p class="text-sm text-gray-600 mt-2">
-                            Terjadi ketika tidak ada troli yang ditemukan berdasarkan filter
-                        </p>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <p class="text-sm font-mono mb-1">GET /trolleys?location_id=123e4567-e89b-12d3-a456-426614174000&status_id=223e4567-e89b-12d3-a456-426614174000&search=TR-01&limit=10&page=2</p>
-                            <p class="text-xs text-gray-600">Mencari troli dengan lokasi tertentu, status tertentu, kode TR-01, menampilkan 10 item per halaman di halaman ke-2</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
-                            <i class="fas fa-map-marked-alt mr-2"></i> Informasi Visualisasi 3D
-                        </h4>
-                        <p class="text-sm text-blue-700">
-                            Koordinat lokasi 3D (<span class="font-mono">x_coordinate</span>, <span class="font-mono">y_coordinate</span>, dan <span class="font-mono">z_coordinate</span>) 
-                            dapat digunakan untuk visualisasi peta 3D lokasi troli di aplikasi:
-                        </p>
-                        <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
-                            <li>Menampilkan posisi troli pada peta 3D bandara</li>
-                            <li>Visualisasi distribusi troli per lantai/level</li>
-                            <li>Heatmap kepadatan troli di area bertingkat</li>
-                            <li>Rute pergerakan troli antar lantai</li>
-                            <li>Identifikasi area dengan kebutuhan troli mendesak berdasarkan lantai</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                        <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-2"></i> Potensi Kesalahan
-                        </h4>
-                        <ul class="list-disc pl-5 mt-2 text-sm text-yellow-700">
-                            <li>Menggunakan format UUID tidak valid untuk <span class="font-mono">location_id</span> atau <span class="font-mono">status_id</span></li>
-                            <li>Menggunakan nilai di luar range 20 untuk <span class="font-mono">limit</span></li>
-                            <li>Menggunakan nilai negatif untuk <span class="font-mono">page</span></li>
-                            <li>Filter yang terlalu spesifik sehingga tidak ada troli yang cocok</li>
-                            <li>Lokasi tanpa koordinat Z akan ditampilkan sebagai 0.0 (lantai dasar)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
-                        <h4 class="font-medium text-green-800 mb-2 flex items-center">
-                            <i class="fas fa-layer-group mr-2"></i> Penggunaan Z-Coordinate
-                        </h4>
-                        <p class="text-sm text-green-700">
-                            Nilai <span class="font-mono">z_coordinate</span> merepresentasikan level/lantai troli:
-                        </p>
-                        <ul class="list-disc pl-5 mt-2 text-sm text-green-700">
-                            <li><span class="font-semibold">0.0</span>: Lantai dasar/Ground floor</li>
-                            <li><span class="font-semibold">1.5</span>: Lantai 2 (ketinggian 1.5 meter dari dasar)</li>
-                            <li><span class="font-semibold">3.0</span>: Lantai 3</li>
-                            <li><span class="font-semibold">-1.0</span>: Basement/Lantai bawah tanah</li>
-                        </ul>
-                        <p class="text-sm text-green-700 mt-2">
-                            Sistem dapat memfilter troli per lantai dengan query tambahan: 
-                            <span class="font-mono">GET /trolleys?z_coordinate=1.5</span>
-                        </p>
+                <div class="flex items-center mb-2">
+                    <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                    <span class="font-mono text-lg">/trolleys</span>
+                </div>
+                <p class="text-gray-700 mb-3">Ambil semua troli (dengan filter, pencarian, pagination, dan informasi lokasi untuk visualisasi)</p>
+                <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+
+                <div class="mb-4">
+                    <h4 class="font-medium mb-2">Parameters</h4>
+                    <div class="bg-gray-100 p-3 rounded text-sm">
+                    <div class="mb-2"><span class="font-mono">location_id</span> (optional, UUID) - Filter berdasarkan lokasi troli saat ini</div>
+                    <div class="mb-2"><span class="font-mono">status_id</span> (optional, UUID) - Filter berdasarkan status troli</div>
+                    <div class="mb-2"><span class="font-mono">search</span> (optional, string) - Pencarian berdasarkan kode troli atau RFID</div>
+                    <div class="mb-2"><span class="font-mono">limit</span> (optional, integer, default: 20, min: 20) - Jumlah data per halaman</div>
+                    <div><span class="font-mono">page</span> (optional, integer, default: 1) - Nomor halaman</div>
                     </div>
                 </div>
+
+                <div class="mb-6">
+                    <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="trolleys-success">
+{
+    "status": true,
+    "message": "Success",
+    "data": {
+        "trolleys": [
+        {
+            "id": "uuid",
+            "rfid_code": "RF123456",
+            "trolley_code": "TR-01",
+            "status": {
+            "id": "uuid",
+            "name": "Aktif"
+            },
+            "location": {
+                "id": "uuid",
+                "name": "Terminal 1",
+                "x_coordinate": 120.5,
+                "y_coordinate": 310.2,
+                "z_coordinate": 0.0
+            }
+        },
+        {
+            "id": "uuid",
+            "rfid_code": "RF654321",
+            "trolley_code": "TR-02",
+            "status": {
+            "id": "uuid",
+            "name": "Tersedia"
+            },
+            "location": {
+                "id": "uuid",
+                "name": "Terminal 2",
+                "x_coordinate": 80.0,
+                "y_coordinate": 500.4,
+                "z_coordinate": 1.5
+            }
+        }
+        ],
+        "pagination": {
+            "page": 1,
+            "limit": 20,
+            "total": 340
+        }
+    }
+}
+                    </pre>
+                    <button class="copy-btn" data-target="trolleys-success"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-medium mb-2">Response (Error 400)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="trolleys-error-400">
+{
+    "status": "error",
+    "message": "Parameter 'status_id' harus berupa UUID yang valid",
+    "error": 400
+}
+                    </pre>
+                    <button class="copy-btn" data-target="trolleys-error-400"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-medium mb-2">Response (Error 404)</h4>
+                    <div class="code-block">
+                    <pre class="rounded p-3 text-sm" id="trolleys-error-404">
+{
+    "status": false,
+    "message": "Tidak ada troli yang cocok dengan filter pencarian",
+    "data": [],
+    "error": 404
+}
+                    </pre>
+                    <button class="copy-btn" data-target="trolleys-error-404"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                    <p class="text-sm font-mono mb-1">GET /trolleys?location_id=123e4567-e89b-12d3-a456-426614174000&status_id=223e4567-e89b-12d3-a456-426614174000&search=TR-01&limit=10&page=2</p>
+                    <p class="text-xs text-gray-600">Mencari troli dengan lokasi tertentu, status tertentu, kode TR-01, menampilkan 10 item per halaman di halaman ke-2</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 class="font-medium text-blue-800 mb-2 flex items-center"><i class="fas fa-map-marked-alt mr-2"></i> Informasi Visualisasi 3D</h4>
+                    <p class="text-sm text-blue-700">Koordinat lokasi 3D (<span class="font-mono">x_coordinate</span>, <span class="font-mono">y_coordinate</span>, dan <span class="font-mono">z_coordinate</span>) dapat digunakan untuk visualisasi peta 3D lokasi troli di aplikasi:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
+                    <li>Menampilkan posisi troli pada peta 3D bandara</li>
+                    <li>Visualisasi distribusi troli per lantai/level</li>
+                    <li>Heatmap kepadatan troli di area bertingkat</li>
+                    <li>Rute pergerakan troli antar lantai</li>
+                    <li>Identifikasi area dengan kebutuhan troli mendesak berdasarkan lantai</li>
+                    </ul>
+                </div>
+
+                <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <h4 class="font-medium text-yellow-800 mb-2 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i> Potensi Kesalahan</h4>
+                    <ul class="list-disc pl-5 mt-2 text-sm text-yellow-700">
+                    <li>Menggunakan format UUID tidak valid untuk <span class="font-mono">location_id</span> atau <span class="font-mono">status_id</span></li>
+                    <li>Menggunakan nilai di luar range 20 untuk <span class="font-mono">limit</span></li>
+                    <li>Menggunakan nilai negatif untuk <span class="font-mono">page</span></li>
+                    <li>Filter yang terlalu spesifik sehingga tidak ada troli yang cocok</li>
+                    <li>Lokasi tanpa koordinat Z akan ditampilkan sebagai 0.0 (lantai dasar)</li>
+                    </ul>
+                </div>
+
+                <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                    <h4 class="font-medium text-green-800 mb-2 flex items-center"><i class="fas fa-layer-group mr-2"></i> Penggunaan Z-Coordinate</h4>
+                    <p class="text-sm text-green-700">Nilai <span class="font-mono">z_coordinate</span> merepresentasikan level/lantai troli:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm text-green-700">
+                    <li><span class="font-semibold">0.0</span>: Lantai dasar/Ground floor</li>
+                    <li><span class="font-semibold">1.5</span>: Lantai 2 (ketinggian 1.5 meter dari dasar)</li>
+                    <li><span class="font-semibold">3.0</span>: Lantai 3</li>
+                    <li><span class="font-semibold">-1.0</span>: Basement/Lantai bawah tanah</li>
+                    </ul>
+                    <p class="text-sm text-green-700 mt-2">
+                    Sistem dapat memfilter troli per lantai dengan query tambahan: 
+                    <span class="font-mono">GET /trolleys?z_coordinate=1.5</span>
+                    </p>
+                </div>
+                </div>
+
                 
                 <!-- POST /trolleys -->
                 <div class="api-endpoint p-5 rounded-lg mb-6">
@@ -1290,6 +1436,93 @@
                 </div>
             </div>
 
+                        <!-- Endpoint Monitoring RFID Readers -->
+<div class="card p-6 mb-8" id="api-monitoring-readers">
+    <h3 class="text-lg font-semibold mb-4">Endpoint Monitoring RFID Readers</h3>
+    
+    <!-- GET /readers -->
+    <div class="api-endpoint p-5 rounded-lg">
+        <div class="flex items-center mb-2">
+            <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+            <span class="font-mono text-lg">/readers</span>
+        </div>
+        <p class="text-gray-700 mb-3">Mengambil daftar semua perangkat pembaca RFID</p>
+        <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+        
+        <div>
+            <h4 class="font-medium mb-2">Response (Success 200)</h4>
+            <div class="code-block">
+            <pre class="rounded p-3 text-sm" id="get-readers-response">{
+    "status": true,
+    "message": "Success",
+    "data": [
+        {
+            "id": "uuid-reader-001",
+            "device_code": "Reader-Terminal3A",
+            "location": "Terminal 3A",
+            "ip_address": "192.168.1.10",
+            "status": "active",
+            "last_online": "2025-06-16T07:00:00Z"
+        },
+        {
+            "id": "uuid-reader-002",
+            "device_code": "Reader-GateD1",
+            "location": "Gate D1",
+            "ip_address": "192.168.1.11",
+            "status": "inactive",
+            "last_online": "2025-06-15T22:30:00Z"
+        }
+    ]
+}</pre>
+                <button class="copy-btn" data-target="get-readers-response">
+                    <i class="fas fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PATCH /readers/:id -->
+    <div class="api-endpoint p-5 rounded-lg mt-6">
+        <div class="flex items-center mb-2">
+            <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">PATCH</span>
+            <span class="font-mono text-lg">/readers/:id</span>
+        </div>
+        <p class="text-gray-700 mb-3">Memperbarui status atau lokasi pembaca RFID</p>
+        <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+
+        <div class="mb-4">
+            <h4 class="font-medium mb-2">Request Body</h4>
+            <pre class="rounded p-3 text-sm">
+{
+    "status": "inactive",           // opsional
+    "location_id": "uuid-location"  // opsional
+}
+            </pre>
+        </div>
+
+        <div>
+            <h4 class="font-medium mb-2">Response (Success 200)</h4>
+            <div class="code-block">
+                <pre class="rounded p-3 text-sm" id="patch-reader-response">
+{
+    "status": true,
+    "message": "Reader updated successfully",
+    "data": {
+        "id": "uuid-reader-001",
+        "device_code": "Reader-Terminal3A",
+        "status": "inactive",
+        "location_id": "uuid-location"
+    }
+}
+                </pre>
+                <button class="copy-btn" data-target="patch-reader-response">
+                    <i class="fas fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
             <!-- Endpoint Locations -->
             <div class="card p-6 mb-8" id="api-locations">
                 <h3 class="text-lg font-semibold mb-4">Endpoint Lokasi</h3>
@@ -1589,7 +1822,7 @@
                 <!-- PATCH /users/{id}/role -->
                 <div class="api-endpoint p-5 rounded-lg">
                     <div class="flex items-center mb-2">
-                        <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">POST</span>
+                        <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">PATCH</span>
                         <span class="font-mono text-lg">/users/{id}/role</span>
                     </div>
                     <p class="text-gray-700 mb-3">Ubah role user</p>
@@ -1789,133 +2022,163 @@
             
             <div class="card p-6">
                 <h3 class="text-lg font-semibold mb-4">Script Pembuatan Tabel</h3>
-                <pre>
+                <div class="code-block">
+                    <pre id="database-query">
 CREATE TABLE public.locations (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    name character varying NOT NULL,
-    description text,
-    created_at timestamp with time zone DEFAULT now(),
-    x_coordinate numeric,
-    y_coordinate numeric,
-    z_coordinate numeric,
-    CONSTRAINT locations_pkey PRIMARY KEY (id)
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name character varying NOT NULL,
+  description text,
+  created_at timestamp with time zone DEFAULT now(),
+  x_coordinate numeric,
+  y_coordinate numeric,
+  z_coordinate numeric,
+  CONSTRAINT locations_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.rfid_readers (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  device_code character varying NOT NULL UNIQUE,
+  location_id uuid,
+  ip_address character varying,
+  status character varying DEFAULT 'active'::character varying,
+  last_online timestamp with time zone,
+  CONSTRAINT rfid_readers_pkey PRIMARY KEY (id),
+  CONSTRAINT rfid_readers_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(id)
 );
 CREATE TABLE public.roles (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    name character varying NOT NULL UNIQUE,
-    CONSTRAINT roles_pkey PRIMARY KEY (id)
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name character varying NOT NULL UNIQUE,
+  CONSTRAINT roles_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.trolley_location_logs (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    trolley_id uuid NOT NULL,
-    location_id uuid NOT NULL,
-    detected_at timestamp with time zone NOT NULL DEFAULT now(),
-    detected_by uuid,
-    x_offset numeric,
-    y_offset numeric,
-    z_offset numeric,
-    CONSTRAINT trolley_location_logs_pkey PRIMARY KEY (id),
-    CONSTRAINT trolley_location_logs_detected_by_fkey FOREIGN KEY (detected_by) REFERENCES public.users(id),
-    CONSTRAINT trolley_location_logs_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(id),
-    CONSTRAINT trolley_location_logs_trolley_id_fkey FOREIGN KEY (trolley_id) REFERENCES public.trolleys(id)
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  trolley_id uuid NOT NULL,
+  location_id uuid NOT NULL,
+  detected_at timestamp with time zone NOT NULL DEFAULT now(),
+  detected_by uuid,
+  x_offset numeric,
+  y_offset numeric,
+  z_offset numeric,
+  CONSTRAINT trolley_location_logs_pkey PRIMARY KEY (id),
+  CONSTRAINT trolley_location_logs_trolley_id_fkey FOREIGN KEY (trolley_id) REFERENCES public.trolleys(id),
+  CONSTRAINT trolley_location_logs_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(id),
+  CONSTRAINT trolley_location_logs_detected_by_fkey FOREIGN KEY (detected_by) REFERENCES public.users(id)
 );
 CREATE TABLE public.trolley_statuses (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    name character varying NOT NULL,
-    description text,
-    CONSTRAINT trolley_statuses_pkey PRIMARY KEY (id)
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name character varying NOT NULL,
+  description text,
+  CONSTRAINT trolley_statuses_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.trolleys (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    rfid_code character varying NOT NULL UNIQUE,
-    trolley_code character varying NOT NULL UNIQUE,
-    status_id uuid,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp without time zone,
-    deleted_at timestamp without time zone,
-    current_location_id uuid,
-    CONSTRAINT trolleys_pkey PRIMARY KEY (id),
-    CONSTRAINT trolleys_status_id_fkey FOREIGN KEY (status_id) REFERENCES public.trolley_statuses(id),
-    CONSTRAINT trolleys_current_location_id_fkey FOREIGN KEY (current_location_id) REFERENCES public.locations(id)
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  rfid_code character varying NOT NULL UNIQUE,
+  trolley_code character varying NOT NULL UNIQUE,
+  status_id uuid,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp without time zone,
+  deleted_at timestamp without time zone,
+  current_location_id uuid,
+  CONSTRAINT trolleys_pkey PRIMARY KEY (id),
+  CONSTRAINT trolleys_status_id_fkey FOREIGN KEY (status_id) REFERENCES public.trolley_statuses(id),
+  CONSTRAINT trolleys_current_location_id_fkey FOREIGN KEY (current_location_id) REFERENCES public.locations(id)
 );
 CREATE TABLE public.user_tokens (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    user_id uuid NOT NULL,
-    refresh_token text NOT NULL,
-    created_at timestamp with time zone DEFAULT now(),
-    expires_at timestamp with time zone,
-    revoked boolean DEFAULT false,
-    CONSTRAINT user_tokens_pkey PRIMARY KEY (id),
-    CONSTRAINT user_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  refresh_token text NOT NULL,
+  created_at timestamp with time zone DEFAULT now(),
+  expires_at timestamp with time zone,
+  revoked boolean DEFAULT false,
+  CONSTRAINT user_tokens_pkey PRIMARY KEY (id),
+  CONSTRAINT user_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
 );
 CREATE TABLE public.users (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    username character varying NOT NULL UNIQUE,
-    password text NOT NULL,
-    fullname character varying,
-    email character varying UNIQUE,
-    role_id uuid,
-    created_at timestamp with time zone NOT NULL DEFAULT now(),
-    updated_at timestamp without time zone,
-    deleted_at timestamp without time zone,
-    is_logged_in boolean DEFAULT false,
-    last_login timestamp with time zone,
-    CONSTRAINT users_pkey PRIMARY KEY (id),
-    CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.roles(id)
-);</pre>
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  username character varying NOT NULL UNIQUE,
+  password text NOT NULL,
+  fullname character varying,
+  email character varying UNIQUE,
+  role_id uuid,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp without time zone,
+  deleted_at timestamp without time zone,
+  is_logged_in boolean DEFAULT false,
+  last_login timestamp with time zone,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
+  CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.roles(id)
+);
+                    </pre>
+                    <button class="copy-btn" data-target="database-query">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
             </div>
         </section>
                 
         <!-- Tahapan Pembuatan API -->
         <section id="development-stages" class="mb-12 p-4 md:p-8">
             <h2 class="text-2xl font-bold mb-6">Tahapan Pembuatan API</h2>
-            
+                    
             <!-- Tahap 1: Setup Autentikasi -->
             <div class="card p-6 mb-8" id="stage-auth">
-            <div class="flex items-center mb-4">
-                <span class="bg-blue-100 text-blue-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
-                <h3 class="text-xl font-semibold">Setup Autentikasi</h3>
-                <span class="ml-auto bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Fundamental</span>
-            </div>
-            
-            <p class="mb-4 text-gray-700">
-                Implementasi sistem keamanan dan manajemen pengguna sebagai dasar semua fungsi API.
-            </p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div class="bg-gray-50 p-4 rounded-lg">
-                <h4 class="font-medium mb-2 flex items-center">
-                    <i class="fas fa-user-plus text-blue-500 mr-2"></i> Endpoint Prioritas
-                </h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><code>POST /auth/register</code> - Pendaftaran user/admin</li>
-                    <li><code>POST /auth/login</code> - Login dengan JWT</li>
-                    <li><code>POST /auth/refresh</code> - Refresh token</li>
-                    <li><code>POST /auth/logout</code> - Terminate session</li>
-                </ul>
+                <div class="flex items-center mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                    <h3 class="text-xl font-semibold">Setup Autentikasi</h3>
+                    <span class="ml-auto bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Fundamental</span>
                 </div>
                 
-                <div class="bg-gray-50 p-4 rounded-lg">
-                <h4 class="font-medium mb-2 flex items-center">
-                    <i class="fas fa-tasks text-blue-500 mr-2"></i> Workflow Implementasi
-                </h4>
-                <ol class="list-decimal pl-5 space-y-1">
-                    <li>Setup database user</li>
-                    <li>Implementasi JWT authentication</li>
-                    <li>Role-based access control</li>
-                    <li>Token refresh mechanism</li>
-                </ol>
-                </div>
-            </div>
-            
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h4 class="font-medium text-blue-800 mb-2 flex items-center">
-                <i class="fas fa-lightbulb mr-2"></i> Best Practice
-                </h4>
-                <p class="text-sm text-blue-700">
-                Gunakan middleware otentikasi untuk melindungi endpoint sensitif. Simpan refresh token di database untuk validasi.
+                <p class="mb-4 text-gray-700">
+                    Implementasi sistem keamanan dan manajemen pengguna dengan token management berbasis database.
                 </p>
-            </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center">
+                            <i class="fas fa-user-plus text-blue-500 mr-2"></i> Endpoint Prioritas
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><code>POST /auth/register</code> - Pendaftaran user/admin</li>
+                            <li><code>POST /auth/login</code> - Login dengan JWT <span class="bg-yellow-100 text-xs px-1 rounded">+ token DB</span></li>
+                            <li><code>POST /auth/refresh</code> - Refresh token <span class="bg-yellow-100 text-xs px-1 rounded">+ validasi DB</span></li>
+                            <li><code>POST /auth/logout</code> - Revoke session <span class="bg-yellow-100 text-xs px-1 rounded">+ revoke DB</span></li>
+                            <li><code>POST /auth/logout-all</code> - Terminate all sessions <span class="bg-green-100 text-xs px-1 rounded">Baru</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center">
+                            <i class="fas fa-tasks text-blue-500 mr-2"></i> Workflow Implementasi
+                        </h4>
+                        <ol class="list-decimal pl-5 space-y-1">
+                            <li>Setup database user dan user_tokens</li>
+                            <li>Implementasi JWT authentication</li>
+                            <li>Role-based access control</li>
+                            <li>Token management dengan penyimpanan refresh token di DB</li>
+                            <li>Implementasi revoke token dan logout semua perangkat</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Best Practice
+                    </h4>
+                    <p class="text-sm text-blue-700 mb-2">
+                        <span class="font-bold">Token Management:</span> Selalu simpan refresh token di database untuk:
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-blue-700 space-y-1">
+                        <li>Validasi server-side pada proses refresh token</li>
+                        <li>Kemampuan revoke token per perangkat</li>
+                        <li>Logout dari semua perangkat sekaligus</li>
+                        <li>Proteksi terhadap token yang dicuri</li>
+                    </ul>
+                    <p class="text-sm text-blue-700 mt-2">
+                        Gunakan middleware otentikasi untuk melindungi endpoint sensitif dan verifikasi status token di database.
+                    </p>
+                    <p class="text-sm text-blue-700 mt-2">
+                        <span class="font-bold">Pastikan is_logged_in:</span> Selalu di ubah sesuai kondisi login atau tidak
+                    </p>
+                </div>
             </div>
             
             <!-- Tahap 2: Manajemen Troli -->
@@ -1969,10 +2232,67 @@ CREATE TABLE public.users (
             </div>
             </div>
             
-            <!-- Tahap 3: Pelacakan Lokasi -->
+            <!-- Tahap 3: Monitoring Perangkat RFID -->
+            <div class="card p-6 mb-8" id="stage-rfid">
+                <div class="flex items-center mb-4">
+                    <span class="bg-green-100 text-green-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                    <h3 class="text-xl font-semibold">Monitoring Perangkat RFID</h3>
+                    <span class="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">Infrastructure</span>
+                </div>
+                
+                <p class="mb-4 text-gray-700">
+                    Sistem ini mencatat dan memantau status perangkat pembaca RFID secara real-time termasuk status aktif dan lokasi terakhir terhubung.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center">
+                            <i class="fas fa-microchip text-green-500 mr-2"></i> Endpoint Prioritas
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><code>GET /readers</code> - Daftar semua RFID reader</li>
+                            <li><code>PATCH /readers/:id</code> - Update status atau lokasi reader</li>
+                            <li><code>GET /readers/active</code> - Daftar reader yang aktif (opsional)</li>
+                            <li><code>DELETE /readers/:id</code> - Nonaktifkan perangkat reader (opsional)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center">
+                            <i class="fas fa-network-wired text-green-500 mr-2"></i> Workflow Implementasi
+                        </h4>
+                        <ol class="list-decimal pl-5 space-y-1">
+                            <li>Setup tabel <code>rfid_readers</code> di database</li>
+                            <li>Hubungkan setiap RFID reader ke lokasi fisik (via <code>location_id</code>)</li>
+                            <li>Buat API untuk memonitor status dan IP address</li>
+                            <li>Integrasi ke dashboard monitoring</li>
+                            <li>Implementasi heartbeat checker untuk status <code>last_online</code></li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                        <i class="fas fa-lightbulb mr-2"></i> Best Practice
+                    </h4>
+                    <p class="text-sm text-green-700 mb-2">
+                        <span class="font-bold">Standard Identifikasi Perangkat:</span> Gunakan <code>device_code</code> yang konsisten seperti <code>Reader-Terminal3A</code> atau <code>Reader-GateD1</code> untuk memudahkan tracing.
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-green-700 space-y-1">
+                        <li>Pantau status aktif/inaktif berdasarkan data <code>last_online</code> dan heartbeat interval</li>
+                        <li>Simpan IP address untuk keperluan audit jaringan dan troubleshooting</li>
+                        <li>Integrasikan notifikasi jika device tidak aktif dalam periode tertentu</li>
+                    </ul>
+                    <p class="text-sm text-green-700 mt-2">
+                        Gunakan middleware admin-only untuk mengakses endpoint ini agar tidak disalahgunakan oleh user biasa.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tahap 4: Pelacakan Lokasi -->
             <div class="card p-6 mb-8" id="stage-lokasi">
             <div class="flex items-center mb-4">
-                <span class="bg-purple-100 text-purple-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                <span class="bg-purple-100 text-purple-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
                 <h3 class="text-xl font-semibold">Pelacakan Lokasi</h3>
                 <span class="ml-auto bg-purple-500 text-white text-xs px-2 py-1 rounded-full">Core RFID Functionality</span>
             </div>
@@ -2017,10 +2337,10 @@ CREATE TABLE public.users (
             </div>
             </div>
             
-            <!-- Tahap 4: Manajemen Metadata -->
+            <!-- Tahap 5: Manajemen Metadata -->
             <div class="card p-6 mb-8"  id="stage-manajemen">
             <div class="flex items-center mb-4">
-                <span class="bg-yellow-100 text-yellow-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                <span class="bg-yellow-100 text-yellow-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
                 <h3 class="text-xl font-semibold">Manajemen Status & Lokasi</h3>
                 <span class="ml-auto bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">Metadata Management</span>
             </div>
@@ -2070,10 +2390,10 @@ CREATE TABLE public.users (
             </div>
             </div>
             
-            <!-- Tahap 5: Sistem Monitoring -->
+            <!-- Tahap 6: Sistem Monitoring -->
             <div class="card p-6 mb-8" id="stage-monitoring">
             <div class="flex items-center mb-4">
-                <span class="bg-red-100 text-red-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
+                <span class="bg-red-100 text-red-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
                 <h3 class="text-xl font-semibold">Sistem Monitoring</h3>
                 <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">Admin Dashboard</span>
             </div>
@@ -2115,10 +2435,10 @@ CREATE TABLE public.users (
             </div>
             </div>
             
-            <!-- Tahap 6: Manajemen Pengguna Lanjut -->
+            <!-- Tahap 7: Manajemen Pengguna Lanjut -->
             <div class="card p-6" id="stage-manajemen-pengguna">
             <div class="flex items-center mb-4">
-                <span class="bg-indigo-100 text-indigo-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
+                <span class="bg-indigo-100 text-indigo-800 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">7</span>
                 <h3 class="text-xl font-semibold">Manajemen Pengguna Lanjut</h3>
                 <span class="ml-auto bg-indigo-500 text-white text-xs px-2 py-1 rounded-full">Admin Controls</span>
             </div>
@@ -2376,6 +2696,81 @@ CREATE TABLE public.users (
             setTimeout(() => {
                 bar.style.width = width;
             }, 300);
+        });
+
+
+        // Fungsi untuk menyalin teks ke clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Tampilkan feedback ke pengguna
+                showNotification('Kode berhasil disalin!');
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+                showNotification('Gagal menyalin kode!', 'error');
+            });
+        }
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type = 'success') {
+            // Hapus notifikasi sebelumnya jika ada
+            const oldNotification = document.querySelector('.notification');
+            if (oldNotification) oldNotification.remove();
+            
+            // Buat elemen notifikasi
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            // Style notifikasi
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '15px 25px';
+            notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+            notification.style.color = 'white';
+            notification.style.borderRadius = '6px';
+            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            notification.style.zIndex = '1000';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.style.transform = 'translateY(20px)';
+            
+            document.body.appendChild(notification);
+            
+            // Animasi masuk
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Hapus setelah 3 detik
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Tambahkan event listener ke semua tombol salin
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const codeElement = document.getElementById(targetId);
+                copyToClipboard(codeElement.innerText);
+                
+                // Beri feedback visual pada tombol
+                this.classList.add('copied');
+                const originalHTML = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                
+                // Kembalikan ke keadaan semula setelah 2 detik
+                setTimeout(() => {
+                    this.classList.remove('copied');
+                    this.innerHTML = originalHTML;
+                }, 2000);
+            });
         });
     </script>
 </body>
