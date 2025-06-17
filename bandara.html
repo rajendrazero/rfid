@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisasi 3D Bandara Soekarno Hatta</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            padding: 10px;
+            background: rgba(0, 30, 60, 0.7);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        #header p {
+            font-size: 1.2rem;
+            color: #e0f7fa;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(0, 30, 60, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .control-group h3 {
+            color: #80d8ff;
+            border-bottom: 1px solid #4fc3f7;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+        
+        #controls button {
+            background: linear-gradient(to right, #1565c0, #2196f3);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        #controls button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #2196f3, #64b5f6);
+        }
+        
+        #controls button.active {
+            background: linear-gradient(to right, #00c853, #64dd17);
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+        }
+        
+        #controls button i {
+            font-size: 1.2rem;
+        }
+        
+        #info-panel {
+            position: absolute;
+            top: 120px;
+            right: 30px;
+            background: rgba(0, 40, 80, 0.85);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 350px;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            transform: translateY(0);
+            transition: transform 0.5s ease;
+        }
+        
+        #info-panel.hidden {
+            transform: translateY(calc(-100% - 140px));
+        }
+        
+        #info-panel h2 {
+            margin-top: 0;
+            color: #80d8ff;
+            border-bottom: 1px solid #4fc3f7;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        #info-panel p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        #info-panel ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        #info-panel li {
+            margin-bottom: 8px;
+        }
+        
+        #toggle-info {
+            position: absolute;
+            top: 120px;
+            right: 30px;
+            z-index: 101;
+            background: rgba(0, 40, 80, 0.85);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        #toggle-info:hover {
+            background: rgba(0, 60, 120, 0.95);
+        }
+        
+        #status-bar {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: white;
+            background: rgba(0, 30, 60, 0.8);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-family: monospace;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .floor-plan {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 30, 60, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .floor-btn {
+            padding: 8px 15px;
+            background: rgba(100, 150, 255, 0.3);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .floor-btn.active {
+            background: #00c853;
+        }
+        
+        .floor-btn:hover {
+            background: rgba(100, 150, 255, 0.5);
+        }
+        
+        .legend {
+            position: absolute;
+            top: 120px;
+            left: 30px;
+            background: rgba(0, 30, 60, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="canvas-container"></div>
+        
+        <div id="header">
+            <h1>Bandara Internasional Soekarno-Hatta</h1>
+            <p>Visualisasi 3D Terminal 1, 2, dan 3 - Fokus pada Detail Bangunan</p>
+        </div>
+        
+        <button id="toggle-info">☰ Info Terminal</button>
+        
+        <div id="info-panel">
+            <h2>Terminal 3 (Ultimate)</h2>
+            <p>Terminal terbaru dengan arsitektur modern yang dirancang untuk memberikan pengalaman terbaik kepada penumpang. Terminal ini memiliki desain futuristik dengan atap melengkung khas.</p>
+            <p>Fitur utama:</p>
+            <ul>
+                <li>Luas bangunan: 422,804 m²</li>
+                <li>3 lantai utama + 1 lantai parkir</li>
+                <li>72 counter check-in</li>
+                <li>20 gate keberangkatan</li>
+                <li>Kapasitas 25 juta penumpang/tahun</li>
+                <li>Area ritel seluas 20,000 m²</li>
+                <li>Sistem transportasi otomatis antar terminal</li>
+            </ul>
+            <p>Terminal ini dirancang dengan konsep eco-airport dengan penggunaan cahaya alami dan sistem ventilasi canggih.</p>
+        </div>
+        
+        <div id="controls">
+            <div class="control-group">
+                <h3>Pilih Terminal</h3>
+                <button id="terminal1">
+                    <i>✈️</i> Terminal 1
+                </button>
+                <button id="terminal2">
+                    <i>✈️</i> Terminal 2
+                </button>
+                <button id="terminal3" class="active">
+                    <i>✈️</i> Terminal 3
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <h3>Tampilan</h3>
+                <button id="viewAll">
+                    <i>🌎</i> Lihat Seluruh Bandara
+                </button>
+                <button id="toggleStructure">
+                    <i>🏗️</i> Tampilkan Struktur
+                </button>
+                <button id="nightMode">
+                    <i>🌙</i> Mode Malam
+                </button>
+            </div>
+        </div>
+        
+        <div class="floor-plan">
+            <button class="floor-btn" data-floor="0">Lantai Dasar</button>
+            <button class="floor-btn" data-floor="1">Lantai 1</button>
+            <button class="floor-btn active" data-floor="2">Lantai 2</button>
+            <button class="floor-btn" data-floor="3">Lantai 3</button>
+            <button class="floor-btn" data-floor="roof">Atap</button>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4682B4;"></div>
+                <span>Terminal 1</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #5D8AA8;"></div>
+                <span>Terminal 2</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #73C2FB;"></div>
+                <span>Terminal 3</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4CAF50;"></div>
+                <span>Area Publik</span>
+            </div>
+        </div>
+        
+        <div id="status-bar">FPS: 60 | Mode: Terminal 3 | Lantai: 2</div>
+    </div>
+
+    <script>
+        // Inisialisasi scene
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x87CEEB);
+        scene.fog = new THREE.FogExp2(0x87CEEB, 0.002);
+        
+        // Kamera
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+        camera.position.set(0, 150, 300);
+        
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
+        // Pencahayaan
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+        
+        const sunLight = new THREE.DirectionalLight(0xffffff, 0.9);
+        sunLight.position.set(200, 400, 300);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        scene.add(sunLight);
+        
+        const backLight = new THREE.DirectionalLight(0xffffff, 0.4);
+        backLight.position.set(-200, 200, -100);
+        scene.add(backLight);
+        
+        // Kontrol kamera
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 50;
+        controls.maxDistance = 800;
+        controls.enablePan = true;
+        
+        // Variabel state
+        let currentTerminal = 3;
+        let nightMode = false;
+        let showStructure = false;
+        let currentFloor = 2;
+        
+        // Membuat landasan pacu
+        function createRunway() {
+            const runwayGroup = new THREE.Group();
+            
+            // Runway utama
+            const runwayGeometry = new THREE.BoxGeometry(1000, 1, 70);
+            const runwayMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x333333,
+                roughness: 0.9,
+                metalness: 0.1
+            });
+            const runway = new THREE.Mesh(runwayGeometry, runwayMaterial);
+            runway.position.set(0, 0.5, -450);
+            runway.receiveShadow = true;
+            runwayGroup.add(runway);
+            
+            // Markings
+            const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            for (let i = -480; i < 480; i += 40) {
+                const lineGeometry = new THREE.PlaneGeometry(4, 35);
+                const line = new THREE.Mesh(lineGeometry, lineMaterial);
+                line.rotation.x = -Math.PI / 2;
+                line.position.set(i, 1.1, -450);
+                runwayGroup.add(line);
+            }
+            
+            return runwayGroup;
+        }
+        
+        // Membuat jendela untuk terminal
+        function createWindows(width, height, count, floorHeight) {
+            const windowGroup = new THREE.Group();
+            const windowSpacing = width / (count + 1);
+            const windowWidth = 8;
+            const windowHeight = 12;
+            
+            for (let i = 0; i < count; i++) {
+                const windowGeometry = new THREE.BoxGeometry(windowWidth, windowHeight, 1);
+                const windowMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0xa0d0ff,
+                    transparent: true,
+                    opacity: 0.7,
+                    emissive: nightMode ? 0x2255aa : 0x000000
+                });
+                
+                const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                window.position.x = -width/2 + windowSpacing * (i + 1);
+                window.position.y = floorHeight + windowHeight/2;
+                window.position.z = 0.1;
+                
+                windowGroup.add(window);
+            }
+            
+            return windowGroup;
+        }
+        
+        // Membangun terminal bandara dengan detail
+        function createTerminal(terminalType) {
+            const terminalGroup = new THREE.Group();
+            const mainColor = terminalType === 1 ? 0x4682B4 : 
+                             terminalType === 2 ? 0x5D8AA8 : 0x73C2FB;
+            const secondaryColor = terminalType === 1 ? 0x5D8AA8 : 
+                                  terminalType === 2 ? 0x6699CC : 0x89CFF0;
+            
+            // Dimensi terminal
+            const mainWidth = terminalType === 3 ? 400 : 250;
+            const mainDepth = terminalType === 3 ? 120 : 80;
+            const floorHeight = 20;
+            const floors = terminalType === 3 ? 4 : 3;
+            
+            // Membangun lantai demi lantai
+            for (let floor = 0; floor < floors; floor++) {
+                // Bangunan utama
+                const floorGeometry = new THREE.BoxGeometry(mainWidth, floorHeight, mainDepth);
+                const floorMaterial = new THREE.MeshStandardMaterial({ 
+                    color: mainColor,
+                    roughness: 0.7,
+                    metalness: 0.3,
+                    wireframe: showStructure
+                });
+                
+                const floorBuilding = new THREE.Mesh(floorGeometry, floorMaterial);
+                floorBuilding.position.y = floor * floorHeight + floorHeight/2;
+                floorBuilding.castShadow = true;
+                floorBuilding.receiveShadow = true;
+                terminalGroup.add(floorBuilding);
+                
+                // Jendela
+                const windows = createWindows(mainWidth, floorHeight, 12, floor * floorHeight + floorHeight/2);
+                terminalGroup.add(windows);
+                
+                // Pintu masuk utama (hanya di lantai dasar)
+                if (floor === 0) {
+                    const entranceGeometry = new THREE.BoxGeometry(mainWidth * 0.7, floorHeight * 0.8, 20);
+                    const entranceMaterial = new THREE.MeshStandardMaterial({ 
+                        color: secondaryColor,
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    
+                    const entrance = new THREE.Mesh(entranceGeometry, entranceMaterial);
+                    entrance.position.set(0, floorHeight * 0.4, mainDepth/2 + 10);
+                    entrance.castShadow = true;
+                    terminalGroup.add(entrance);
+                    
+                    // Tambahkan canopy di atas pintu masuk
+                    const canopyGeometry = new THREE.BoxGeometry(mainWidth * 0.8, 2, 30);
+                    const canopyMaterial = new THREE.MeshStandardMaterial({ color: 0xf5f5f5 });
+                    const canopy = new THREE.Mesh(canopyGeometry, canopyMaterial);
+                    canopy.position.set(0, floorHeight + 1, mainDepth/2 + 5);
+                    canopy.castShadow = true;
+                    terminalGroup.add(canopy);
+                }
+                
+                // Lantai parkir (hanya untuk Terminal 3 di lantai 3)
+                if (terminalType === 3 && floor === 2) {
+                    const parkingGeometry = new THREE.BoxGeometry(mainWidth * 0.9, 1, mainDepth * 0.9);
+                    const parkingMaterial = new THREE.MeshStandardMaterial({ 
+                        color: 0x444444,
+                        roughness: 0.9
+                    });
+                    
+                    const parking = new THREE.Mesh(parkingGeometry, parkingMaterial);
+                    parking.position.y = floor * floorHeight + 10.5;
+                    parking.receiveShadow = true;
+                    terminalGroup.add(parking);
+                    
+                    // Garis parkir
+                    for (let x = -mainWidth/2 + 20; x <= mainWidth/2 - 20; x += 30) {
+                        for (let z = -mainDepth/2 + 20; z <= mainDepth/2 - 20; z += 20) {
+                            const lineGeometry = new THREE.PlaneGeometry(20, 2);
+                            const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+                            const line = new THREE.Mesh(lineGeometry, lineMaterial);
+                            line.rotation.x = -Math.PI / 2;
+                            line.position.set(x, floor * floorHeight + 10.6, z);
+                            terminalGroup.add(line);
+                        }
+                    }
+                }
+            }
+            
+            // Atap khas bandara (melengkung untuk terminal 3)
+            if (terminalType === 3) {
+                const roofGeometry = new THREE.CylinderGeometry(mainWidth/2, mainWidth/2, 8, 50, 1, true);
+                const roofMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0xf5f5f5,
+                    roughness: 0.6,
+                    metalness: 0.4,
+                    side: THREE.DoubleSide,
+                    wireframe: showStructure
+                });
+                
+                const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+                roof.rotation.x = Math.PI / 2;
+                roof.position.y = floors * floorHeight + 4;
+                roof.castShadow = true;
+                terminalGroup.add(roof);
+                
+                // Struktur atap
+                const roofStructureGeometry = new THREE.CylinderGeometry(mainWidth/2 + 2, mainWidth/2 + 2, 1, 50);
+                const roofStructureMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x333333,
+                    wireframe: showStructure
+                });
+                
+                const roofStructure = new THREE.Mesh(roofStructureGeometry, roofStructureMaterial);
+                roofStructure.rotation.x = Math.PI / 2;
+                roofStructure.position.y = floors * floorHeight;
+                terminalGroup.add(roofStructure);
+                
+                // Pilar atap
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2;
+                    const pillarX = Math.cos(angle) * (mainWidth/2 - 5);
+                    const pillarZ = Math.sin(angle) * (mainDepth/2 - 5);
+                    
+                    const pillarGeometry = new THREE.CylinderGeometry(1, 1, floors * floorHeight, 8);
+                    const pillarMaterial = new THREE.MeshStandardMaterial({ 
+                        color: 0x333333,
+                        wireframe: showStructure
+                    });
+                    
+                    const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
+                    pillar.position.set(pillarX, (floors * floorHeight)/2, pillarZ);
+                    terminalGroup.add(pillar);
+                }
+            } else {
+                // Atap datar untuk Terminal 1 dan 2
+                const roofGeometry = new THREE.BoxGeometry(mainWidth + 10, 2, mainDepth + 10);
+                const roofMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0xf5f5f5,
+                    wireframe: showStructure
+                });
+                
+                const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+                roof.position.y = floors * floorHeight + 1;
+                roof.castShadow = true;
+                terminalGroup.add(roof);
+                
+                // AC dan peralatan di atap
+                const acGroup = new THREE.Group();
+                for (let i = 0; i < 8; i++) {
+                    const acGeometry = new THREE.BoxGeometry(8, 3, 5);
+                    const acMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc });
+                    const ac = new THREE.Mesh(acGeometry, acMaterial);
+                    
+                    ac.position.x = -mainWidth/2 + 20 + i * 40;
+                    ac.position.y = floors * floorHeight + 2.5;
+                    ac.position.z = 0;
+                    
+                    acGroup.add(ac);
+                }
+                terminalGroup.add(acGroup);
+            }
+            
+            // Menara kontrol untuk terminal 1
+            if (terminalType === 1) {
+                const towerGroup = new THREE.Group();
+                
+                // Menara
+                const towerGeometry = new THREE.CylinderGeometry(8, 10, 80, 16);
+                const towerMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0xf5f5f5,
+                    wireframe: showStructure
+                });
+                
+                const tower = new THREE.Mesh(towerGeometry, towerMaterial);
+                tower.position.set(mainWidth/2 + 30, 40, -mainDepth/3);
+                tower.castShadow = true;
+                towerGroup.add(tower);
+                
+                // Ruang kontrol
+                const controlRoomGeometry = new THREE.BoxGeometry(25, 12, 25);
+                const controlRoomMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x89CFF0,
+                    transparent: true,
+                    opacity: 0.7,
+                    wireframe: showStructure
+                });
+                
+                const controlRoom = new THREE.Mesh(controlRoomGeometry, controlRoomMaterial);
+                controlRoom.position.set(mainWidth/2 + 30, 85, -mainDepth/3);
+                controlRoom.castShadow = true;
+                towerGroup.add(controlRoom);
+                
+                // Jendela ruang kontrol
+                for (let i = 0; i < 4; i++) {
+                    const angle = (i / 4) * Math.PI * 2;
+                    const windowX = Math.cos(angle) * 10;
+                    const windowZ = Math.sin(angle) * 10;
+                    
+                    const windowGeometry = new THREE.BoxGeometry(8, 8, 1);
+                    const windowMaterial = new THREE.MeshStandardMaterial({ 
+                        color: 0xa0d0ff,
+                        transparent: true,
+                        opacity: 0.7,
+                        emissive: nightMode ? 0x2255aa : 0x000000
+                    });
+                    
+                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                    window.position.set(mainWidth/2 + 30 + windowX, 85, -mainDepth/3 + windowZ);
+                    window.lookAt(mainWidth/2 + 30, 85, -mainDepth/3);
+                    towerGroup.add(window);
+                }
+                
+                terminalGroup.add(towerGroup);
+            }
+            
+            // Jembatan penumpang (jet bridges)
+            const jetBridgeGroup = new THREE.Group();
+            const bridgeCount = terminalType === 3 ? 12 : 8;
+            const bridgeSpacing = mainWidth / (bridgeCount + 1);
+            
+            for (let i = 0; i < bridgeCount; i++) {
+                const bridgeGroup = new THREE.Group();
+                
+                // Base
+                const baseGeometry = new THREE.BoxGeometry(10, 8, 10);
+                const baseMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x333333,
+                    wireframe: showStructure
+                });
+                
+                const base = new THREE.Mesh(baseGeometry, baseMaterial);
+                base.position.y = 4;
+                bridgeGroup.add(base);
+                
+                // Tube
+                const tubeGeometry = new THREE.CylinderGeometry(2, 2, 40, 8);
+                const tubeMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0xCCCCCC,
+                    wireframe: showStructure
+                });
+                
+                const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
+                tube.rotation.z = Math.PI / 2;
+                tube.position.set(20, 8, 0);
+                bridgeGroup.add(tube);
+                
+                // Connector
+                const connectorGeometry = new THREE.BoxGeometry(8, 5, 5);
+                const connector = new THREE.Mesh(connectorGeometry, tubeMaterial);
+                connector.position.set(40, 8, 0);
+                bridgeGroup.add(connector);
+                
+                bridgeGroup.position.x = -mainWidth/2 + bridgeSpacing * (i + 1);
+                bridgeGroup.position.z = -mainDepth/2 - 25;
+                jetBridgeGroup.add(bridgeGroup);
+            }
+            terminalGroup.add(jetBridgeGroup);
+            
+            return terminalGroup;
+        }
+        
+        // Membuat area parkir
+        function createParkingLot() {
+            const parkingGroup = new THREE.Group();
+            
+            // Area parkir
+            const parkingGeometry = new THREE.PlaneGeometry(500, 300);
+            const parkingMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x444444,
+                roughness: 0.9
+            });
+            
+            const parking = new THREE.Mesh(parkingGeometry, parkingMaterial);
+            parking.rotation.x = -Math.PI / 2;
+            parking.position.set(0, 0.1, 200);
+            parking.receiveShadow = true;
+            parkingGroup.add(parking);
+            
+            // Garis parkir
+            for (let x = -240; x <= 240; x += 40) {
+                for (let z = 70; z <= 330; z += 20) {
+                    const lineGeometry = new THREE.PlaneGeometry(30, 2);
+                    const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+                    const line = new THREE.Mesh(lineGeometry, lineMaterial);
+                    line.rotation.x = -Math.PI / 2;
+                    line.position.set(x, 0.2, z);
+                    parkingGroup.add(line);
+                }
+            }
+            
+            return parkingGroup;
+        }
+        
+        // Membangun seluruh bandara
+        function buildAirport() {
+            // Landasan pacu
+            scene.add(createRunway());
+            
+            // Terminal
+            const terminal1 = createTerminal(1);
+            terminal1.position.set(-250, 0, -100);
+            scene.add(terminal1);
+            
+            const terminal2 = createTerminal(2);
+            terminal2.position.set(0, 0, -100);
+            scene.add(terminal2);
+            
+            const terminal3 = createTerminal(3);
+            terminal3.position.set(250, 0, -100);
+            scene.add(terminal3);
+            
+            // Area parkir
+            scene.add(createParkingLot());
+            
+            // Taxiway
+            const taxiwayGeometry = new THREE.PlaneGeometry(600, 40);
+            const taxiwayMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x555555,
+                roughness: 0.9
+            });
+            
+            const taxiway = new THREE.Mesh(taxiwayGeometry, taxiwayMaterial);
+            taxiway.rotation.x = -Math.PI / 2;
+            taxiway.position.set(0, 0.1, -250);
+            taxiway.receiveShadow = true;
+            scene.add(taxiway);
+            
+            // Garis taxiway
+            for (let i = -280; i < 280; i += 40) {
+                const lineGeometry = new THREE.PlaneGeometry(4, 30);
+                const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                const line = new THREE.Mesh(lineGeometry, lineMaterial);
+                line.rotation.x = -Math.PI / 2;
+                line.position.set(i, 0.2, -250);
+                scene.add(line);
+            }
+            
+            // Tambahkan beberapa pesawat kecil sebagai prop
+            const airplaneGeometry = new THREE.ConeGeometry(5, 15, 3);
+            airplaneGeometry.rotateX(Math.PI / 2);
+            const airplaneMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+            
+            for (let i = 0; i < 5; i++) {
+                const airplane = new THREE.Mesh(airplaneGeometry, airplaneMaterial);
+                airplane.position.set(-350 + i * 150, 5, -450);
+                scene.add(airplane);
+            }
+        }
+        
+        // Inisialisasi scene
+        buildAirport();
+        
+        // Setup UI event listeners
+        document.getElementById('terminal1').addEventListener('click', () => {
+            currentTerminal = 1;
+            camera.position.set(-250, 150, 150);
+            document.querySelectorAll('#controls button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('terminal1').classList.add('active');
+            updateStatusBar();
+        });
+        
+        document.getElementById('terminal2').addEventListener('click', () => {
+            currentTerminal = 2;
+            camera.position.set(0, 150, 150);
+            document.querySelectorAll('#controls button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('terminal2').classList.add('active');
+            updateStatusBar();
+        });
+        
+        document.getElementById('terminal3').addEventListener('click', () => {
+            currentTerminal = 3;
+            camera.position.set(250, 180, 150);
+            document.querySelectorAll('#controls button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('terminal3').classList.add('active');
+            updateStatusBar();
+        });
+        
+        document.getElementById('viewAll').addEventListener('click', () => {
+            camera.position.set(0, 350, 500);
+            document.querySelectorAll('#controls button').forEach(btn => btn.classList.remove('active'));
+            updateStatusBar();
+        });
+        
+        document.getElementById('toggleStructure').addEventListener('click', () => {
+            showStructure = !showStructure;
+            // Perbarui scene dengan mode wireframe
+            scene.traverse(function(object) {
+                if (object.isMesh) {
+                    object.material.wireframe = showStructure;
+                }
+            });
+            updateStatusBar();
+        });
+        
+        document.getElementById('nightMode').addEventListener('click', () => {
+            nightMode = !nightMode;
+            scene.background = new THREE.Color(nightMode ? 0x0a1a3a : 0x87CEEB);
+            scene.fog = new THREE.FogExp2(nightMode ? 0x0a1a3a : 0x87CEEB, 0.002);
+            
+            // Perbarui jendela untuk mode malam
+            scene.traverse(function(object) {
+                if (object.isMesh && object.material.emissive) {
+                    object.material.emissive.set(nightMode ? 0x2255aa : 0x000000);
+                }
+            });
+            
+            // Sesuaikan pencahayaan
+            ambientLight.intensity = nightMode ? 0.3 : 0.6;
+            sunLight.intensity = nightMode ? 0.4 : 0.9;
+            backLight.intensity = nightMode ? 0.2 : 0.4;
+            
+            updateStatusBar();
+        });
+        
+        document.getElementById('toggle-info').addEventListener('click', () => {
+            document.getElementById('info-panel').classList.toggle('hidden');
+        });
+        
+        document.querySelectorAll('.floor-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentFloor = parseInt(btn.dataset.floor);
+                document.querySelectorAll('.floor-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Atur posisi kamera berdasarkan lantai
+                let cameraY;
+                if (currentFloor === 0) cameraY = 30;
+                else if (currentFloor === 1) cameraY = 50;
+                else if (currentFloor === 2) cameraY = 70;
+                else if (currentFloor === 3) cameraY = 90;
+                else cameraY = 120; // Atap
+                
+                camera.position.y = cameraY;
+                updateStatusBar();
+            });
+        });
+        
+        function updateStatusBar() {
+            const terminalText = currentTerminal === 1 ? 'Terminal 1' : 
+                                currentTerminal === 2 ? 'Terminal 2' : 'Terminal 3';
+            
+            const floorText = currentFloor === 0 ? 'Dasar' : 
+                             currentFloor === 1 ? '1' : 
+                             currentFloor === 2 ? '2' : 
+                             currentFloor === 3 ? '3' : 'Atap';
+            
+            const modeText = showStructure ? 'Struktur' : 
+                            nightMode ? 'Malam' : 'Normal';
+            
+            document.getElementById('status-bar').textContent = 
+                `FPS: 60 | Mode: ${modeText} | Terminal: ${terminalText} | Lantai: ${floorText}`;
+        }
+        
+        // Animasi
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Mulai animasi
+        animate();
+        updateStatusBar();
+    </script>
+</body>
+</html>

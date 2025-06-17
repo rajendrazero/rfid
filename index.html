@@ -477,7 +477,7 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold">Progress & Absensi</h2>
                 <div class="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full">
-                    Diperbarui: 15 Juni 2025
+                    Diperbarui: 17 Juni 2025
                 </div>
             </div>
             
@@ -488,10 +488,10 @@
                         <div>
                             <div class="flex justify-between mb-1">
                                 <span>Backend Development</span>
-                                <span>10%</span>
+                                <span>30%</span>
                             </div>
                             <div class="progress-bar w-full bg-gray-200 rounded-full h-2">
-                                <div class="progress-bar h-2 bg-green-500 rounded-full" style="width: 10%"></div>
+                                <div class="progress-bar h-2 bg-green-500 rounded-full" style="width: 30%"></div>
                             </div>
                         </div>
                         <div>
@@ -506,10 +506,10 @@
                         <div>
                             <div class="flex justify-between mb-1">
                                 <span>Testing</span>
-                                <span>0%</span>
+                                <span>30%</span>
                             </div>
                             <div class="progress-bar w-full bg-gray-200 rounded-full h-2">
-                                <div class="progress-bar h-2 bg-yellow-500 rounded-full" style="width: 0%"></div>
+                                <div class="progress-bar h-2 bg-yellow-500 rounded-full" style="width: 30%"></div>
                             </div>
                         </div>
                     </div>
@@ -521,19 +521,23 @@
                         <!-- status-done -->
                         <div class="flex justify-between items-center">
                             <span>Login System</span>
-                            <span class="status-badge status-in-progress">Dalam Pengerjaan</span>
+                            <span class="status-badge status-done">Selesai</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Lokasi Troli (RFID)</span>
+                            <span class="status-badge status-in-progress">Tahap Pengerjaan</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Monitoring RFID Reader</span>
                             <span class="status-badge status-todo">Belum Dimulai</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>CRUD Troli</span>
-                            <span class="status-badge status-in-progress">Dalam Pengerjaan</span>
+                            <span class="status-badge status-done">Selesai</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Status Troli</span>
-                            <span class="status-badge status-todo">Belum Dimulai</span>
+                            <span class="status-badge status-in-progress">Tahap Pengerjaan</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Monitoring User</span>
@@ -544,6 +548,27 @@
             </div>
             
             <div class="card p-6 mb-8">
+                <!-- Note Perubahan Terbaru -->
+                <div class="mb-12 p-4 md:p-8 rounded-lg bg-yellow-50 border-l-4 border-yellow-400">
+                    <h3 class="text-lg font-semibold text-yellow-800 mb-2">📝 Catatan Perubahan Terbaru</h3>
+                    <ul class="list-disc pl-6 text-sm text-yellow-800 space-y-1">
+                        <li>Mengimplementasikan endpoint baru untuk <strong>trolley-status update dan delete</strong></li>
+                        <li>Menambahkan kolom <code>created_at</code>, <code>updated_at</code>, dan <code>deleted_at</code> pada tabel <code>trolley_statuses</code></li>
+                        <li>Progress UI kini menampilkan <strong>status harian lengkap</strong></li>
+                    </ul>
+                </div>
+                <!-- Note Perkiraan Kebutuhan Backend -->
+                <div class="mb-12 p-4 rounded-lg bg-red-50 border-l-4 border-red-400">
+                    <h3 class="text-lg font-semibold text-red-800 mb-2">📝 Catatan Perkiraan Kebutuhan Backend</h3>
+                    <ul class="list-disc pl-6 text-sm text-red-800 space-y-1">
+                        <li>Gunakan Redis <strong>untuk cache posisi troli</strong> dan hindari beban berat di DB. Redis itu penyimpanan data super cepat di RAM. Setiap kali troli update posisi, simpan dulu di Redis, bukan langsung ke DB. Untuk menggunakan download ini  <code><mark>npm install ioredis
+                        </mark></code></li>
+                        <li>Kirim update <strong>posisi ke frontend dengan WebSocket</strong> untuk kebutuhan real-time visualisasi dibutuhkan. Ketika posisi troli berubah → backend langsung push data ke frontend. Untuk menggunakan download ini <code><mark>npm install socket.io</mark>
+                        </code></li>
+                        <li>Karena kirim data dari RFID reader, pastikan <strong>backend bisa proses secara batch atau queue.</strong> Gunakan RabbitMQ. Misalnya 100 troli lewat reader dalam 1 detik, kirim semua ke RabbitMQ. Backend baca perlahan tapi stabil dari queue → proses satu per satu → update Redis → update WebSocket → simpan ke DB. Untuk menggunakan download ini <code><mark>npm install amqplib</mark>
+                        </code></li>
+                    </ul>
+                </div>
                 <h3 class="text-lg font-semibold mb-4">Detail Progress Harian</h3>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -557,9 +582,21 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr>
-                                <td class="px-4 py-3 whitespace-nowrap">14 Jun 2025</td>
-                                <td class="px-4 py-3">Implementasi Login Fitur</td>
+                                <td class="px-4 py-3 whitespace-nowrap">18 Jun 2025</td>
+                                <td class="px-4 py-3">Troley Status CRUD</td>
                                 <td class="px-4 py-3"><span class="status-badge status-in-progress">Dalam Pengerjaan</span></td>
+                                <td class="px-4 py-3 text-sm text-gray-500">Manipulasi dan manajemen data status troli</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 whitespace-nowrap">17 Jun 2025</td>
+                                <td class="px-4 py-3">Troley CRUD</td>
+                                <td class="px-4 py-3"><span class="status-badge status-done">Selesai</span></td>
+                                <td class="px-4 py-3 text-sm text-gray-500">Manipulasi dan manajemen data Troli</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap">17 Jun 2025</td>
+                                <td class="px-4 py-3">Implementasi Login Fitur</td>
+                                <td class="px-4 py-3"><span class="status-badge status-done">Selesai</span></td>
                                 <td class="px-4 py-3 text-sm text-gray-500">Pembuatan Fitur lengkap untuk user register login dan logout</td>
                             </tr>
                             <tr class="bg-gray-50">
@@ -1279,249 +1316,389 @@
             
             <!-- Endpoint Trolley Statuses -->
             <div class="card p-6 mb-8" id="api-statuses">
-                <h3 class="text-lg font-semibold mb-4">Endpoint Status Troli</h3>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-1">Endpoint Status Troli</h2>
+                        <p class="text-gray-600">Manajemen status troli untuk operasional bandara</p>
+                    </div>
+                    <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <i class="fas fa-database mr-1"></i> Soft Delete Aktif
+                    </div>
+                </div>
+
+                <!-- Timestamp Information -->
+                <div class="timestamp-info p-4 rounded-lg mb-8">
+                    <h3 class="font-bold text-gray-800 flex items-center mb-3">
+                        <i class="fas fa-info-circle text-blue-500 mr-2"></i> Informasi Timestamp
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-sm text-gray-700">created_at</h4>
+                            <p class="text-xs text-gray-600 mt-1">Timestamp ketika record pertama kali dibuat. Diisi otomatis oleh sistem.</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-sm text-gray-700">updated_at</h4>
+                            <p class="text-xs text-gray-600 mt-1">Timestamp terakhir record diperbarui. Diperbarui otomatis saat ada perubahan.</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-sm text-gray-700">deleted_at</h4>
+                            <p class="text-xs text-gray-600 mt-1">Timestamp ketika record dihapus (soft delete). Null jika belum dihapus.</p>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- GET /trolley-statuses -->
-                <div class="api-endpoint p-5 rounded-lg mb-6">
-                    <div class="flex items-center mb-2">
-                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                <div class="api-endpoint p-5 rounded-xl mb-8" id="get-statuses">
+                    <div class="flex items-center mb-3">
+                        <span class="endpoint-tag px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
                         <span class="font-mono text-lg">/trolley-statuses</span>
                     </div>
-                    <p class="text-gray-700 mb-3">Ambil daftar status troli (untuk dropdown, filter, dll)</p>
-                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token</p>
+                    <p class="text-gray-700 mb-3">Ambil daftar status troli (hanya record yang belum dihapus)</p>
+                    <p class="text-sm text-gray-600 mb-4"><i class="fas fa-lock mr-1"></i> Requires Authentication: Bearer Token</p>
                     
                     <div class="mb-6">
                         <h4 class="font-medium mb-2">Response (Success 200)</h4>
-                        <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Success",
-            "data": [
-                {
-                "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
-                "name": "Tersedia",
-                "description": "Troli siap digunakan"
-                },
-                {
-                "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
-                "name": "Digunakan",
-                "description": "Troli sedang digunakan oleh penumpang"
-                },
-                {
-                "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
-                "name": "Maintenance",
-                "description": "Troli sedang dalam perbaikan"
-                }
-            ]
-            }</pre>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": true,
+"message": "Success",
+"data": [
+{
+    "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+    "name": "Tersedia",
+    "description": "Troli siap digunakan",
+    "created_at": "2025-06-10T08:30:25.000Z",
+    "updated_at": "2025-06-12T14:20:10.000Z",
+    "deleted_at": null
+},
+{
+    "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+    "name": "Digunakan",
+    "description": "Troli sedang digunakan oleh penumpang",
+    "created_at": "2025-06-10T08:30:25.000Z",
+    "updated_at": "2025-06-15T09:15:30.000Z",
+    "deleted_at": null
+},
+{
+    "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+    "name": "Maintenance",
+    "description": "Troli sedang dalam perbaikan",
+    "created_at": "2025-06-10T08:30:25.000Z",
+    "updated_at": "2025-06-16T11:45:22.000Z",
+    "deleted_at": null
+}
+]
+}</code></pre>
+                        </div>
                     </div>
                     
                     <div class="mb-6">
                         <h4 class="font-medium mb-2">Response (Error 400)</h4>
-                        <pre class="rounded p-3 text-sm">{
-            "status": "error",
-            "message": "Parameter tidak valid",
-            "error": 400
-            }</pre>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": "error",
+"message": "Parameter tidak valid",
+"error": 400
+}</code></pre>
+                        </div>
                         <p class="text-sm text-gray-600 mt-2">
                             Terjadi ketika request mengandung parameter yang tidak valid
                         </p>
                     </div>
-                    
-                    <div class="mt-4">
-                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <p class="text-sm font-mono mb-1">GET /trolley-statuses</p>
-                            <p class="text-xs text-gray-600">Mengambil semua status troli yang tersedia</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-200">
-                        <h4 class="font-medium text-orange-800 mb-2 flex items-center">
-                            <i class="fas fa-info-circle mr-2"></i> Penggunaan Status Troli
-                        </h4>
-                        <p class="text-sm text-orange-700">
-                            Status troli digunakan untuk melacak kondisi setiap troli dalam sistem:
-                        </p>
-                        <ul class="list-disc pl-5 mt-2 text-sm text-orange-700">
-                            <li>Menentukan troli yang siap digunakan penumpang</li>
-                            <li>Mengidentifikasi troli yang perlu perbaikan</li>
-                            <li>Memfilter troli berdasarkan status di dashboard</li>
-                            <li>Melacak siklus hidup troli</li>
-                        </ul>
-                    </div>
                 </div>
 
                 <!-- POST /trolley-statuses -->
-                <div class="api-endpoint p-5 rounded-lg">
-                    <div class="flex items-center mb-2">
-                        <span class="inline-block px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
+                <div class="api-endpoint p-5 rounded-xl mb-8" id="post-statuses">
+                    <div class="flex items-center mb-3">
+                        <span class="endpoint-tag px-3 py-1 bg-green-500 text-white rounded mr-3">POST</span>
                         <span class="font-mono text-lg">/trolley-statuses</span>
                     </div>
                     <p class="text-gray-700 mb-3">Buat status troli baru</p>
-                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+                    <p class="text-sm text-gray-600 mb-4"><i class="fas fa-user-shield mr-1"></i> Requires Authentication: Bearer Token (Admin only)</p>
                     
                     <div class="mb-4">
                         <h4 class="font-medium mb-2">Request Body</h4>
-                        <pre class="rounded p-3 text-sm">{
-            "name": "Sedang dibersihkan",
-            "description": "Troli dalam proses pembersihan setelah digunakan."
-            }</pre>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"name": "Sedang dibersihkan",
+"description": "Troli dalam proses pembersihan setelah digunakan."
+}</code></pre>
+                        </div>
                     </div>
                     
                     <div class="mb-6">
                         <h4 class="font-medium mb-2">Response (Success 201)</h4>
-                        <pre class="rounded p-3 text-sm">{
-            "status": true,
-            "message": "Status berhasil dibuat",
-            "data": {
-                "id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
-                "name": "Sedang dibersihkan",
-                "description": "Troli dalam proses pembersihan setelah digunakan."
-            }
-            }</pre>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": true,
+"message": "Status berhasil dibuat",
+"data": {
+"id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+"name": "Sedang dibersihkan",
+"description": "Troli dalam proses pembersihan setelah digunakan.",
+"created_at": "2025-06-17T14:30:45.123Z",
+"updated_at": "2025-06-17T14:30:45.123Z",
+"deleted_at": null
+}
+}</code></pre>
+                        </div>
                     </div>
                     
                     <div class="mb-6">
                         <h4 class="font-medium mb-2">Response (Error 400)</h4>
-                        <pre class="rounded p-3 text-sm">{
-            "status": "error",
-            "message": "Property 'name' harus diisi dan berupa string",
-            "error": 400
-            }</pre>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": "error",
+"message": "Property 'name' harus diisi dan berupa string",
+"error": 400
+}</code></pre>
+                        </div>
                         <p class="text-sm text-gray-600 mt-2">
                             Terjadi ketika data yang dikirim tidak valid
                         </p>
                     </div>
+                </div>
+
+                <!-- PUT /trolley-statuses/{id} -->
+                <div class="api-endpoint p-5 rounded-xl mb-8" id="put-status">
+                    <div class="flex items-center mb-3">
+                        <span class="endpoint-tag px-3 py-1 bg-yellow-500 text-white rounded mr-3">PUT</span>
+                        <span class="font-mono text-lg">/trolley-statuses/{id}</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Perbarui data status troli berdasarkan ID</p>
+                    <p class="text-sm text-gray-600 mb-4"><i class="fas fa-user-shield mr-1"></i> Requires Authentication: Bearer Token (Admin only)</p>
                     
-                    <div class="mt-4">
-                        <h4 class="font-medium mb-2">Contoh Penggunaan</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <p class="text-sm font-mono mb-1">POST /trolley-statuses</p>
-                            <p class="text-xs text-gray-600">Membuat status troli baru untuk proses pembersihan</p>
-                            
-                            <div class="mt-3 p-3 bg-gray-200 rounded text-sm">
-                                <p class="font-medium">Contoh Request:</p>
-                                <pre class="mt-2">{
-            "name": "Dalam Perawatan",
-            "description": "Troli sedang menjalani perawatan rutin"
-            }</pre>
-                            </div>
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Path Parameters</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-200">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="py-2 px-4 border-b text-left">Parameter</th>
+                                        <th class="py-2 px-4 border-b text-left">Tipe</th>
+                                        <th class="py-2 px-4 border-b text-left">Deskripsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b font-mono">id</td>
+                                        <td class="py-2 px-4 border-b">UUID</td>
+                                        <td class="py-2 px-4 border-b">ID unik dari status troli yang akan diperbarui</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     
-                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-2"></i> Kesalahan Umum
-                        </h4>
-                        <ul class="list-disc pl-5 mt-2 text-sm text-blue-700">
-                            <li><span class="font-mono">name</span> tidak boleh kosong</li>
-                            <li><span class="font-mono">name</span> harus unik (tidak boleh duplikat)</li>
-                            <li><span class="font-mono">name</span> maksimal 50 karakter</li>
-                            <li><span class="font-mono">description</span> maksimal 255 karakter</li>
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"name": "Dalam Perawatan",
+"description": "Troli sedang menjalani perawatan rutin"
+}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": true,
+"message": "Status berhasil diperbarui",
+"data": {
+"id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+"name": "Dalam Perawatan",
+"description": "Troli sedang menjalani perawatan rutin",
+"created_at": "2025-06-17T14:30:45.123Z",
+"updated_at": "2025-06-17T15:45:30.789Z",
+"deleted_at": null
+}
+}</code></pre>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Perhatikan bahwa <span class="font-mono">updated_at</span> diperbarui secara otomatis
+                        </p>
+                    </div>
+                </div>
+
+                <!-- DELETE /trolley-statuses/{id} -->
+                <div class="api-endpoint p-5 rounded-xl" id="delete-status">
+                    <div class="flex items-center mb-3">
+                        <span class="endpoint-tag px-3 py-1 bg-red-500 text-white rounded mr-3">DELETE</span>
+                        <span class="font-mono text-lg">/trolley-statuses/{id}</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Hapus status troli berdasarkan ID (Soft Delete)</p>
+                    <p class="text-sm text-gray-600 mb-4"><i class="fas fa-user-shield mr-1"></i> Requires Authentication: Bearer Token (Admin only)</p>
+                    
+                    <div class="soft-delete-info p-4 rounded-lg mb-6">
+                        <h3 class="font-bold text-gray-800 flex items-center mb-2">
+                            <i class="fas fa-trash-alt text-red-500 mr-2"></i> Soft Delete Implementation
+                        </h3>
+                        <p class="text-sm text-gray-700">
+                            Sistem menggunakan soft delete untuk semua operasi penghapusan. Ini berarti:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-gray-700">
+                            <li>Record tidak benar-benar dihapus dari database</li>
+                            <li>Field <span class="font-mono">deleted_at</span> diisi dengan timestamp saat penghapusan</li>
+                            <li>Record tidak muncul di hasil query normal (hanya muncul jika secara eksplisit diminta)</li>
+                            <li>Record dapat dipulihkan (restore) kapan saja</li>
                         </ul>
                     </div>
                     
-                    <div class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                        <h4 class="font-medium text-green-800 mb-2 flex items-center">
-                            <i class="fas fa-lightbulb mr-2"></i> Tips Manajemen Status
-                        </h4>
-                        <ul class="list-disc pl-5 mt-2 text-sm text-green-700">
-                            <li>Buat status yang mencerminkan alur kerja troli di bandara Anda</li>
-                            <li>Gunakan nama yang singkat namun deskriptif</li>
-                            <li>Tambahkan deskripsi untuk penjelasan lebih detail</li>
-                            <li>Hindari membuat status yang terlalu mirip</li>
-                            <li>Perbarui status sesuai kebutuhan operasional</li>
-                        </ul>
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Path Parameters</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-200">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="py-2 px-4 border-b text-left">Parameter</th>
+                                        <th class="py-2 px-4 border-b text-left">Tipe</th>
+                                        <th class="py-2 px-4 border-b text-left">Deskripsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b font-mono">id</td>
+                                        <td class="py-2 px-4 border-b">UUID</td>
+                                        <td class="py-2 px-4 border-b">ID unik dari status troli yang akan dihapus</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": true,
+"message": "Status berhasil dihapus (soft delete)",
+"data": {
+"id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+"deleted_at": "2025-06-17T16:20:15.456Z"
+}
+}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 404)</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": "error",
+"message": "Status troli tidak ditemukan",
+"error": 404
+}</code></pre>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika ID status troli tidak ditemukan
+                        </p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-2">Response (Error 410)</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+"status": "error",
+"message": "Status troli sudah dihapus sebelumnya",
+"error": 410,
+"deleted_at": "2025-06-15T10:30:45.000Z"
+}</code></pre>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Terjadi ketika status sudah dihapus sebelumnya (soft deleted)
+                        </p>
                     </div>
                 </div>
             </div>
+            
+            <!-- Endpoint Monitoring RFID Readers -->
+            <div class="card p-6 mb-8" id="api-monitoring-readers">
+                <h3 class="text-lg font-semibold mb-4">Endpoint Monitoring RFID Readers</h3>
+                
+                <!-- GET /readers -->
+                <div class="api-endpoint p-5 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
+                        <span class="font-mono text-lg">/readers</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Mengambil daftar semua perangkat pembaca RFID</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <div class="code-block">
+                        <pre class="rounded p-3 text-sm" id="get-readers-response">{
+                "status": true,
+                "message": "Success",
+                "data": [
+                    {
+                        "id": "uuid-reader-001",
+                        "device_code": "Reader-Terminal3A",
+                        "location": "Terminal 3A",
+                        "ip_address": "192.168.1.10",
+                        "status": "active",
+                        "last_online": "2025-06-16T07:00:00Z"
+                    },
+                    {
+                        "id": "uuid-reader-002",
+                        "device_code": "Reader-GateD1",
+                        "location": "Gate D1",
+                        "ip_address": "192.168.1.11",
+                        "status": "inactive",
+                        "last_online": "2025-06-15T22:30:00Z"
+                    }
+                ]
+            }</pre>
+                            <button class="copy-btn" data-target="get-readers-response">
+                                <i class="fas fa-copy"></i> Salin
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-                        <!-- Endpoint Monitoring RFID Readers -->
-<div class="card p-6 mb-8" id="api-monitoring-readers">
-    <h3 class="text-lg font-semibold mb-4">Endpoint Monitoring RFID Readers</h3>
-    
-    <!-- GET /readers -->
-    <div class="api-endpoint p-5 rounded-lg">
-        <div class="flex items-center mb-2">
-            <span class="inline-block px-3 py-1 bg-blue-500 text-white rounded mr-3">GET</span>
-            <span class="font-mono text-lg">/readers</span>
-        </div>
-        <p class="text-gray-700 mb-3">Mengambil daftar semua perangkat pembaca RFID</p>
-        <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
-        
-        <div>
-            <h4 class="font-medium mb-2">Response (Success 200)</h4>
-            <div class="code-block">
-            <pre class="rounded p-3 text-sm" id="get-readers-response">{
-    "status": true,
-    "message": "Success",
-    "data": [
-        {
-            "id": "uuid-reader-001",
-            "device_code": "Reader-Terminal3A",
-            "location": "Terminal 3A",
-            "ip_address": "192.168.1.10",
-            "status": "active",
-            "last_online": "2025-06-16T07:00:00Z"
-        },
-        {
-            "id": "uuid-reader-002",
-            "device_code": "Reader-GateD1",
-            "location": "Gate D1",
-            "ip_address": "192.168.1.11",
-            "status": "inactive",
-            "last_online": "2025-06-15T22:30:00Z"
-        }
-    ]
-}</pre>
-                <button class="copy-btn" data-target="get-readers-response">
-                    <i class="fas fa-copy"></i> Salin
-                </button>
+                <!-- PATCH /readers/:id -->
+                <div class="api-endpoint p-5 rounded-lg mt-6">
+                    <div class="flex items-center mb-2">
+                        <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">PATCH</span>
+                        <span class="font-mono text-lg">/readers/:id</span>
+                    </div>
+                    <p class="text-gray-700 mb-3">Memperbarui status atau lokasi pembaca RFID</p>
+                    <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium mb-2">Request Body</h4>
+                        <pre class="rounded p-3 text-sm">
+            {
+                "status": "inactive",           // opsional
+                "location_id": "uuid-location"  // opsional
+            }
+                        </pre>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium mb-2">Response (Success 200)</h4>
+                        <div class="code-block">
+                            <pre class="rounded p-3 text-sm" id="patch-reader-response">
+            {
+                "status": true,
+                "message": "Reader updated successfully",
+                "data": {
+                    "id": "uuid-reader-001",
+                    "device_code": "Reader-Terminal3A",
+                    "status": "inactive",
+                    "location_id": "uuid-location"
+                }
+            }
+                            </pre>
+                            <button class="copy-btn" data-target="patch-reader-response">
+                                <i class="fas fa-copy"></i> Salin
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <!-- PATCH /readers/:id -->
-    <div class="api-endpoint p-5 rounded-lg mt-6">
-        <div class="flex items-center mb-2">
-            <span class="inline-block px-3 py-1 bg-yellow-500 text-white rounded mr-3">PATCH</span>
-            <span class="font-mono text-lg">/readers/:id</span>
-        </div>
-        <p class="text-gray-700 mb-3">Memperbarui status atau lokasi pembaca RFID</p>
-        <p class="text-sm text-gray-600 mb-3">Requires Authentication: Bearer Token (Admin only)</p>
-
-        <div class="mb-4">
-            <h4 class="font-medium mb-2">Request Body</h4>
-            <pre class="rounded p-3 text-sm">
-{
-    "status": "inactive",           // opsional
-    "location_id": "uuid-location"  // opsional
-}
-            </pre>
-        </div>
-
-        <div>
-            <h4 class="font-medium mb-2">Response (Success 200)</h4>
-            <div class="code-block">
-                <pre class="rounded p-3 text-sm" id="patch-reader-response">
-{
-    "status": true,
-    "message": "Reader updated successfully",
-    "data": {
-        "id": "uuid-reader-001",
-        "device_code": "Reader-Terminal3A",
-        "status": "inactive",
-        "location_id": "uuid-location"
-    }
-}
-                </pre>
-                <button class="copy-btn" data-target="patch-reader-response">
-                    <i class="fas fa-copy"></i> Salin
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
             <!-- Endpoint Locations -->
             <div class="card p-6 mb-8" id="api-locations">
@@ -1964,43 +2141,59 @@
             <div class="card p-6 mb-8">
                 <h3 class="text-lg font-semibold mb-4">Diagram Relasional</h3>
                 <div class="bg-gray-100 p-8 rounded-lg flex justify-center">
-                    <div class="text-center">
-                        <div class="inline-block bg-white p-6 rounded-lg shadow mb-4">
-                            <div class="font-bold mb-2">users</div>
-                            <div class="text-left text-sm">
-                                <div>id UUID PK</div>
-                                <div>username VARCHAR</div>
-                                <div>password TEXT</div>
-                                <div>role_id UUID FK</div>
-                                <div>...</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex justify-center space-x-8">
-                            <div class="inline-block bg-white p-6 rounded-lg shadow">
-                                <div class="font-bold mb-2">trolleys</div>
+                    <div class="text-center relative">
+            
+                        <!-- Baris 1: Users, Roles, Tokens -->
+                        <div class="flex justify-center space-x-8 mb-12">
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">users</div>
                                 <div class="text-left text-sm">
                                     <div>id UUID PK</div>
-                                    <div>rfid_code VARCHAR</div>
-                                    <div>status_id UUID FK</div>
+                                    <div>username VARCHAR</div>
+                                    <div>password TEXT</div>
+                                    <div>role_id UUID FK</div>
+                                    <div>fullname VARCHAR</div>
+                                    <div>email VARCHAR</div>
                                     <div>...</div>
                                 </div>
                             </div>
                             
-                            <div class="inline-block bg-white p-6 rounded-lg shadow">
-                                <div class="font-bold mb-2">trolley_location_logs</div>
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">roles</div>
                                 <div class="text-left text-sm">
                                     <div>id UUID PK</div>
-                                    <div>trolley_id UUID FK</div>
-                                    <div>location_id UUID FK</div>
-                                    <div>detected_at TIMESTAMP</div>
+                                    <div>name VARCHAR</div>
+                                </div>
+                            </div>
+                            
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">user_tokens</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>user_id UUID FK</div>
+                                    <div>refresh_token TEXT</div>
+                                    <div>expires_at TIMESTAMP</div>
+                                    <div>...</div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="mt-4 flex justify-center space-x-8">
-                            <div class="inline-block bg-white p-6 rounded-lg shadow">
-                                <div class="font-bold mb-2">locations</div>
+            
+                        <!-- Baris 2: Trolleys, Status, Locations, RFID -->
+                        <div class="flex justify-center space-x-8 mb-12">
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">trolleys</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>rfid_code VARCHAR</div>
+                                    <div>trolley_code VARCHAR</div>
+                                    <div>status_id UUID FK</div>
+                                    <div>current_location_id UUID FK</div>
+                                    <div>...</div>
+                                </div>
+                            </div>
+                            
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">trolley_statuses</div>
                                 <div class="text-left text-sm">
                                     <div>id UUID PK</div>
                                     <div>name VARCHAR</div>
@@ -2008,12 +2201,42 @@
                                 </div>
                             </div>
                             
-                            <div class="inline-block bg-white p-6 rounded-lg shadow">
-                                <div class="font-bold mb-2">trolley_statuses</div>
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">locations</div>
                                 <div class="text-left text-sm">
                                     <div>id UUID PK</div>
                                     <div>name VARCHAR</div>
+                                    <div>description TEXT</div>
+                                    <div>x_coordinate NUMERIC</div>
+                                    <div>y_coordinate NUMERIC</div>
+                                    <div>...</div>
                                 </div>
+                            </div>
+                            
+                            <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                                <div class="font-bold mb-2">rfid_readers</div>
+                                <div class="text-left text-sm">
+                                    <div>id UUID PK</div>
+                                    <div>device_code VARCHAR</div>
+                                    <div>location_id UUID FK</div>
+                                    <div>ip_address VARCHAR</div>
+                                    <div>...</div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Baris 3: Location Logs -->
+                        <div class="inline-block bg-white p-6 rounded-lg shadow relative z-10">
+                            <div class="font-bold mb-2">trolley_location_logs</div>
+                            <div class="text-left text-sm">
+                                <div>id UUID PK</div>
+                                <div>trolley_id UUID FK</div>
+                                <div>location_id UUID FK</div>
+                                <div>detected_by UUID FK</div>
+                                <div>detected_at TIMESTAMP</div>
+                                <div>x_offset NUMERIC</div>
+                                <div>y_offset NUMERIC</div>
+                                <div>...</div>
                             </div>
                         </div>
                     </div>
